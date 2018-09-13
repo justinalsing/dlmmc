@@ -14,4 +14,4 @@ The closest description of the DLM model implemented here is in [Laine et al 201
 [netCDF4](https://pypi.org/project/netcdf/)
 [pystan](https://pystan.readthedocs.io/en/latest/)
 
-**Usage** A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_kalman.ipynb` where do analyze ozone data as a case study. Please work through this notebook and contact us if you have any questions.
+**Usage** A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_kalman.ipynb` -- this tutorial analyses ozone time-series data as a case study. Please work through this notebook and contact us if you have any questions.

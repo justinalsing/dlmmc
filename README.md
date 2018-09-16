@@ -6,7 +6,7 @@ There is a paper in preparation to accompany the code (appearing soon). Until th
 
 A close description of the DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and the model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep; appearing soon) when you use this code. 
 
-**Dependencies** Install the following dependencies (using eg., pip install):
+**Dependencies** The code is Python 3. Install the following dependencies (using eg., pip install):
 
 [numpy](http://www.numpy.org)
 [scipy](https://www.scipy.org)

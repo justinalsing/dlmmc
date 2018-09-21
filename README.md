@@ -1,6 +1,6 @@
 # dlm
 
-**Dynamical Linear Modelling** (DLM) regression code in python for analysis of time-series data. The code is targeted at atmospheric time-series analysis, with a worked example (and data) included for ozone, but is a fairly general DLM code that can be applied to a range of problems.
+**Dynamical Linear Modelling** (DLM) regression code in python for analysis of time-series data. The code is targeted at atmospheric time-series analysis, with a worked example (and data) included for ozone, but is a fairly general state space model that can be applied to a range of problems. The model includes dynamical proxies, dynamical (non-linear) trend, dynamical seasonal components and an autoregressive (AR) process.
 
 There is a paper in preparation to accompany the code (appearing soon). Until then, please contact us if you intend to use the code for a major project.
 

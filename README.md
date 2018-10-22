@@ -16,4 +16,4 @@ A close description of the DLM model implemented here can be found in [Laine et 
 
 **Usage** A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_kalman.ipynb` -- this tutorial analyses ozone time-series data as a case study. Please work through this notebook to get to grips with the code and contact us if you have any questions.
 
-THe second notebook `dlm_spatial_spatial.ipynb` shows how to run the DLM code over a grid of time-series at different latitudes/altitudes and save the results to a netCDF file. This notebook has the additional dependency [tqdm](https://tqdm.github.io) if you want it to work with a progress bar.
+The second notebook `dlm_spatial_spatial.ipynb` shows how to run the DLM code over a grid of time-series at different latitudes/altitudes and save the results to a netCDF file. This notebook has the additional dependency [tqdm](https://tqdm.github.io) if you want it to work with a progress bar.

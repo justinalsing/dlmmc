@@ -499,3 +499,88 @@ generated quantities {
 }
 
 """
+
+code_seasonal = """
+
+data {
+    int N; // number of time steps
+    int nreg; // number of regressors
+    vector[N] d; // n-composites vectors of N-time-steps -- the data
+    vector[N] s; // corresponding standard deviation for each data point
+    vector[nreg] regressors[N]; // nreg regressors of N-time-steps
+    matrix[nreg, nreg] C_GP_prior; // prior covariance on regressor coefficients
+    matrix[4,4] G; // Seasonal transition matrix
+    real<lower=0> sigma_trend_prior;
+    real<lower=0> sigma_seas_prior;
+    real<lower=0> sigma_AR_prior;
+}
+
+parameters {
+    vector[nreg] b; // regression coefficients
+    vector[N] ar; // ar-process
+    vector[4] seasonal_components[N]; // seasonal cycle
+    vector[N] slope; // dynamical linear trend [slope]
+    real x0;
+    real<lower=0> sigma_trend;
+    real<lower=0> sigma_seas;
+    real<lower=0> sigma_AR;
+    real<lower=0, upper=1> rho;
+}
+
+transformed parameters{
+    vector[N] trend; // dynamical linear trend
+    vector[N] seasonal; // seasonal cycle
+    vector[N] regression_model; // complete regression model
+
+    // Model for the latent dynamical model
+    trend[1] = x0;
+    seasonal[1] = seasonal_components[1][1] + seasonal_components[1][3];
+    regression_model[1] = dot_product(b, regressors[1]);
+    for(t in 2:N){
+
+        trend[t] = trend[t-1] + slope[t];
+        seasonal[t] = seasonal_components[t][1] + seasonal_components[t][3];
+        regression_model[t] = dot_product(b, regressors[t]);
+    }
+}
+
+model {
+
+    // Priors on hyper parameters
+    sigma_trend ~ normal(0, sigma_trend_prior);
+    sigma_seas ~ normal(0, sigma_seas_prior);
+    sigma_AR ~ normal(0, sigma_AR_prior);
+    seasonal_components[1] ~ normal(0, 10);
+    rho ~ uniform(0, 1);
+    b ~ multi_normal(rep_vector(0, nreg), C_GP_prior);
+    
+    // Prior on AR process initial value
+    ar[1] ~ normal(0, sqrt(sigma_AR^2/(1-rho^2)));
+
+    // Model for the latent dynamical model
+    for(t in 2:N){
+    
+        // AR-process
+        ar[t] ~ normal(ar[t-1]*rho, sigma_AR);
+        
+        // Seasonal cycle
+        seasonal_components[t] ~ normal(G*seasonal_components[t-1], sigma_seas);
+
+        // Stochastic DLM trend
+        slope[t] ~ normal(slope[t-1], sigma_trend);
+    }
+
+    # Construct target density
+    for(t in 1:N){
+        target += normal_lpdf(ar[t] + trend[t] + seasonal[t] + regression_model[t] | d[t], s[t]);
+    }
+}
+
+generated quantities{
+
+    vector[N] residuals;
+    residuals = d - regression_model - seasonal - trend;
+}
+
+"""
+

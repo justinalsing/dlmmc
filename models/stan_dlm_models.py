@@ -3,8 +3,8 @@ code_kalman_ar1 = """
 data {
     int N; // number of time steps
     int nreg; // number of regressors
-    vector[N] d; // n-composites vectors of N-time-steps -- the data
-    vector[N] s; // corresponding std deviation for each data point
+    vector[N] time_series; // n-composites vectors of N-time-steps -- the data
+    vector[N] stddev; // corresponding std deviation for each data point
     vector[nreg] regressors[N]; // nreg regressors of N-time-steps
     real<lower=0> sigma_trend_prior;
     real<lower=0> sigma_seas_prior;
@@ -14,6 +14,12 @@ data {
 }
 
 transformed data {
+
+    // Re-scaled data
+    real data_mean = mean(time_series);
+    real data_range = max(time_series) - min(time_series);
+    vector[N] d = (time_series - data_mean)/data_range;
+    vector[N] s = stddev/data_range;
 
     // Set value of nx
     int nx = nreg+7;
@@ -34,8 +40,8 @@ transformed data {
     F[1][5] = 1;
     F[1][6] = 0;
     for(i in 1:nreg){
-        F[1][6+i] = 0; 
-    }  
+        F[1][6+i] = 0;
+    }
     F[1][6+nreg+1] = 1;
     
     // Loop over next time points
@@ -47,8 +53,8 @@ transformed data {
         F[t][5] = 1;
         F[t][6] = 0;
         for(i in 1:nreg){
-            F[t][6+i] = regressors[t-1][i]; 
-        }  
+            F[t][6+i] = regressors[t-1][i];
+        }
         F[t][6+nreg+1] = 1;
     }
 }
@@ -146,7 +152,7 @@ transformed parameters{
     
     // Initialize C_bar
     C_bar[1] = C;
-        
+    
     // Do the forward filtering
     for(t in 2:N+1){
         x_hat[t] = G*x_bar[t-1];
@@ -160,7 +166,7 @@ transformed parameters{
 }
 
 model {
- 
+
     // Priors on hyper parameters
     sigma_trend ~ normal(0, sigma_trend_prior);
     sigma_seas ~ normal(0, sigma_seas_prior);
@@ -170,7 +176,7 @@ model {
     // Construct target density
     for(t in 2:N+1){
         target += normal_lpdf(v[t] | 0, sqrt(C_y[t]));
-    } 
+    }
 }
 
 generated quantities {
@@ -232,23 +238,24 @@ generated quantities {
         M[N+2-t] = (F[N+2-t]*F[N+2-t]')/C_y[N+2-t] + L[N+2-t]'*(M[N+2-t+1]*L[N+2-t]);
         x_twidle[N+2-t] = x_hat[N+2-t] + C_hat[N+2-t]*r[N+2-t];
         x_realization_twidle[N+2-t] = x_realization_hat[N+2-t] + C_hat[N+2-t]*r_realization[N+2-t];
-        C_twidle[N+2-t] = C_hat[N+2-t] - C_hat[N+2-t]*(M[N+2-t]*C_hat[N+2-t]);        
+        C_twidle[N+2-t] = C_hat[N+2-t] - C_hat[N+2-t]*(M[N+2-t]*C_hat[N+2-t]);
     }
     
     for(t in 1:N){
         x[t] = x_realization[t+1] - x_realization_twidle[t+1] + x_twidle[t+1];
-        trend[t] = x[t][1];
-        slope[t] = x[t][2];
-        seasonal[t] = x[t][3] + x[t][5];
-        ar[t] = x[t][nx];
-        residuals[t] = d[t] - (F[t]'*x[t] - ar[t]);
+        trend[t] = x[t][1]*data_range + data_mean;
+        slope[t] = x[t][2]*data_range;
+        seasonal[t] = (x[t][3] + x[t][5])*data_range;
+        ar[t] = x[t][nx]*data_range;
+        residuals[t] = (d[t] - (F[t]'*x[t] - ar[t]/data_range))*data_range;
     }
     for(i in 1:nreg){
-        beta[i] = x[1][5+i];
+        beta[i] = x[1][5+i]*data_range;
     }
 }
 
 """
+
 
 code_kalman_ar2 = """
 
@@ -256,8 +263,8 @@ data {
     int N; // number of time steps
     int nreg; // number of regressors
     int nx; // length of state vector
-    vector[N] d; // n-composites vectors of N-time-steps -- the data
-    vector[N] s; // corresponding std deviation for each data point
+    vector[N] time_series; // n-composites vectors of N-time-steps -- the data
+    vector[N] stddev; // corresponding std deviation for each data point
     vector[nreg] regressors[N]; // nreg regressors of N-time-steps
     real<lower=0> sigma_trend_prior;
     real<lower=0> sigma_seas_prior;
@@ -266,6 +273,12 @@ data {
 }
 
 transformed data {
+
+    // Re-scaled data
+    real data_mean = mean(time_series);
+    real data_range = max(time_series) - min(time_series);
+    vector[N] d = (time_series - data_mean)/data_range;
+    vector[N] s = stddev/data_range;
     
     // Declare F-vector (observation projection vector)
     vector[nx] F[N+1];
@@ -421,7 +434,7 @@ model {
     sigma_seas ~ normal(0, sigma_seas_prior);
     sigma_AR ~ normal(0, sigma_AR_prior);
     rhoAR1 ~ uniform(0, 1);
-    rhoAR2 ~ uniform(0, sqrt(rnoAR1^4+1-rhoAR1^2)-rhoAR1^2);
+    rhoAR2 ~ uniform(0, sqrt(rhoAR1^4+1-rhoAR1^2)-rhoAR1^2);
 
     // Construct target density
     for(t in 2:N+1){
@@ -433,8 +446,10 @@ generated quantities {
 
     // Declare Kalman smoother quantities
     vector[N] trend;
+    vector[N] slope;
     vector[N] seasonal;
     vector[N] ar;
+    vector[nreg] beta;
     vector[nx] x[N];
     vector[N] residuals;
     vector[nx] x_realization[N+1];
@@ -491,14 +506,23 @@ generated quantities {
     
     for(t in 1:N){
         x[t] = x_realization[t+1] - x_realization_twidle[t+1] + x_twidle[t+1];
-        trend[t] = x[t][1];
-        seasonal[t] = x[t][3] + x[t][5];
-        ar[t] = x[t][nx];
-        residuals[t] = d[t] - (F[t]'*x[t] - ar[t]);
+        trend[t] = x[t][1]*data_range + data_mean;
+        slope[t] = x[t][2]*data_range;
+        seasonal[t] = (x[t][3] + x[t][5])*data_range;
+        ar[t] = x[t][nx]*data_range;
+        residuals[t] = (d[t] - (F[t]'*x[t] - ar[t]/data_range))*data_range;
+    }
+    for(i in 1:nreg){
+        beta[i] = x[1][5+i]*data_range;
     }
 }
 
 """
+
+
+
+
+
 
 code_seasonal = """
 
@@ -583,4 +607,3 @@ generated quantities{
 }
 
 """
-

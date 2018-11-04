@@ -24,7 +24,9 @@ Once you have downloaded the code from this repository and installed the depende
 
 This compiles the all models on your machine, then you're ready to go!
 
-**Usage** A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses ozone time-series data as a case study. Please work through this notebook to get to grips with the code and contact us if you have any questions.
+**Usage** 
+
+A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses ozone time-series data as a case study. Please work through this notebook to get to grips with the code and contact us if you have any questions.
 
 The python script `dlm_lat_alt_mpi_run.py` is a template for how to run the DLM code over a grid of time-series at different latitudes/altitudes and save the results to a netCDF file, in parallel using MPI. This script has the additional dependency [tqdm](https://tqdm.github.io) if you want it to work with a progress bar. Once you have MPI working, you can run this script with the command (using eg. 4 hyperthreaded processes, again make sure you run with python3)
 

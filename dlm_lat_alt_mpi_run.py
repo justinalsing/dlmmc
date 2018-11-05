@@ -8,12 +8,6 @@ import tqdm
 from mpi4py import MPI
 import pickle
 from utils.utils import *
-import platform
-
-# Increase the max number of files you can have open if in windows
-if platform.system() == 'Windows':
-    import win32file
-    win32file._setmaxstdio(2048)
 
 # Results directory and run name
 results_dir = 'results'

@@ -21,8 +21,8 @@ results_filename = 'BASIC_V1_2017'
 
 # How many MCMC chains/samples to do
 n_chains = 1
-warmup = 1
-iterations = 3
+warmup = 1000
+iterations = 3000
 n_samples = n_chains*(iterations-warmup)
 
 # MPI comm, number of processes and rank info

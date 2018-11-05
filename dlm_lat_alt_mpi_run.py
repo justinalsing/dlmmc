@@ -1,16 +1,29 @@
 # Import stuff
 import pystan
-import matplotlib.pyplot as plt
 import numpy as np
-import time
 import sys
 import scipy.interpolate as interpolate
 import netCDF4
-from models.stan_dlm_models import *
 import tqdm
 from mpi4py import MPI
 import pickle
 from utils.utils import *
+import platform
+
+# Increase the max number of files you can have open if in windows
+if platform.system() == 'Windows':
+    import win32file
+    win32file._setmaxstdio(2048)
+
+# Results directory and run name
+results_dir = 'results'
+results_filename = 'BASIC_V1_2017'
+
+# How many MCMC chains/samples to do
+n_chains = 1
+warmup = 1
+iterations = 3
+n_samples = n_chains*(iterations-warmup)
 
 # MPI comm, number of processes and rank info
 comm = MPI.COMM_WORLD
@@ -65,16 +78,9 @@ for latitude in range(12):
 # How many regressors?
 nregs = 5
 
-# How many MCMC chains/samples to do
-n_chains = 1
-warmup = 500
-iterations = 3000
-n_samples = n_chains*(iterations-warmup)
-
 # Make the netcdf file for saving results
-results_filename = 'results/results.nc'
 if myrank == 0:
-    create_results_netcdf(results_filename, L, P, T, n_samples, nregs)
+    create_results_netcdf(results_dir, results_filename, L, P, T, n_samples, nregs)
 
 # MPI gridding: meshgrid for pressures and latitudes
 LP = np.meshgrid(np.arange(0, len(P)), np.arange(0, len(L)))
@@ -133,7 +139,19 @@ for ind in indicies:
             fit = model_kalman_ar1.sampling(data=input_data, iter=iterations, warmup=warmup, chains=n_chains, init = [initial_state for i in range(n_chains)], verbose=False, pars=('sigma_trend', 'sigma_seas', 'sigma_AR', 'rhoAR', 'trend', 'slope', 'beta', 'seasonal', 'residuals'))
 
         # Put the relevant bits into the netCDF...
-        add_results_to_netcdf(results_filename, fit, pressure, latitude)
+        save_results(results_dir, results_filename, fit, pressure, latitude)
 
     # Update the progress bar
     pbar.update(1)
+
+# Send signals once through the loop
+if comm.rank > 0:
+    comm.send(['done.'], 0, tag=myrank)
+
+# Wait until all signals received by rank == 0 process
+if myrank == 0:
+    for i in range(1, nprocs):
+        signals = comm.recv(source=i)
+
+    # Now convert to netCDF
+    convert_to_netcdf(results_dir, results_filename, P, L)

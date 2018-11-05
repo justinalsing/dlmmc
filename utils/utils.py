@@ -2,6 +2,7 @@
 import netCDF4
 import os
 import numpy as np
+import pickle
 
 class suppress_stdout_stderr(object):
     '''
@@ -34,10 +35,16 @@ class suppress_stdout_stderr(object):
 
 
 # Create a netCDF file saving all the results
-def create_results_netcdf(results_filename, L, P, T, n_samples, nregs):
+def create_results_netcdf(results_dir, results_filename, L, P, T, n_samples, nregs):
+    
+    # Try to remove the netCDF if it already exists
+    try:
+        os.remove('{}/{}.nc'.format(results_dir, results_filename))
+    except:
+        pass
     
     # Make the netcdf file
-    results = netCDF4.Dataset(results_filename, 'w')
+    results = netCDF4.Dataset('{}/{}.nc'.format(results_dir, results_filename), 'w')
 
     # Create dimensions
     results.createDimension('latitude', len(L))
@@ -76,10 +83,10 @@ def create_results_netcdf(results_filename, L, P, T, n_samples, nregs):
 
         
 # Put the relevant bits into the netCDF...
-def add_results_to_netcdf(results_filename, fit, pressure, latitude):
+def add_results_to_netcdf(results_dir, results_filename, fit, pressure, latitude):
 
     # Open the netCDF
-    results = netCDF4.Dataset(results_filename, 'r+')
+    results = netCDF4.Dataset('{}/{}.nc'.format(results_dir, results_filename), 'r+')
 
     # Trend
     results['trend'][:, pressure, latitude, :] = fit.extract()['trend'][:,:]
@@ -105,8 +112,83 @@ def add_results_to_netcdf(results_filename, fit, pressure, latitude):
     results['sigma_trend'][:, pressure, latitude] = fit.extract()['sigma_trend']
     results['sigma_seas'][:, pressure, latitude] = fit.extract()['sigma_seas']
     results['sigma_AR'][:, pressure, latitude] = fit.extract()['sigma_AR']
-    results['rho_AR'][:, pressure, latitude] = fit.extract()['sigma_AR']
+    results['rho_AR'][:, pressure, latitude] = fit.extract()['rhoAR']
     
     # Close the netCDF file
     results.close()
+
+# Save the results
+def save_results(results_dir, results_filename, fit, pressure, latitude):
+
+    results = {'trend':fit.extract()['trend'][:,:],
+                'trend_mean':np.mean(fit.extract()['trend'][:,:], axis = 0),
+                'trend_std':np.std(fit.extract()['trend'][:,:], axis = 0),
+                'slope_mean':np.mean(fit.extract()['slope'][:,:], axis = 0),
+                'slope_std':np.std(fit.extract()['slope'][:,:], axis = 0),
+                'seasonal_mean':np.mean(fit.extract()['seasonal'][:,:], axis = 0),
+                'seasonal_std':np.std(fit.extract()['seasonal'][:,:], axis = 0),
+                'residuals_mean':np.mean(fit.extract()['residuals'][:,:], axis = 0),
+                'residuals_std':np.std(fit.extract()['residuals'][:,:], axis = 0),
+                'regressor_coefficients':fit.extract()['beta'][:,:],
+                'sigma_trend':fit.extract()['sigma_trend'],
+                'sigma_seas':fit.extract()['sigma_seas'],
+                'sigma_AR':fit.extract()['sigma_AR'],
+                'rho_AR':fit.extract()['rhoAR']
+                }
+
+    with open('{}/{}_pres{}_lat{}.pkl'.format(results_dir, results_filename, pressure, latitude), 'wb') as f:
+        pickle.dump(results, f)
+
+# Convert results to netCDF
+def convert_to_netcdf(results_dir, results_filename, P, L):
+    
+    # Open the netCDF
+    results = netCDF4.Dataset('{}/{}.nc'.format(results_dir, results_filename), 'r+')
+
+    # Fill the pressures and latitudes one by one
+    for pressure in range(len(P)):
+        for latitude in range(len(L)):
+            try:
+                f = open('{}/{}_pres{}_lat{}.pkl'.format(results_dir, results_filename, pressure, latitude), 'rb')
+                res = pickle.load(f)
+                f.close()
+                
+                # Trend
+                results['trend'][:, pressure, latitude, :] = res['trend']
+                results['trend_mean'][pressure, latitude, :] = res['trend_mean']
+                results['trend_std'][pressure, latitude, :] = res['trend_std']
+                
+                # Slope of the DLM trend
+                results['slope_mean'][pressure, latitude, :] = res['slope_mean']
+                results['slope_std'][pressure, latitude, :] = res['slope_std']
+                
+                # Seasonal cycle
+                results['seasonal_mean'][pressure, latitude, :] = res['seasonal_mean']
+                results['seasonal_std'][pressure, latitude, :] = res['seasonal_std']
+                
+                # Residuals
+                results['residuals_mean'][pressure, latitude, :] = res['residuals_mean']
+                results['residuals_std'][pressure, latitude, :] = res['residuals_std']
+                
+                # Regressor coefficients
+                results['regressor_coefficients'][:, pressure, latitude, :] = res['regressor_coefficients']
+                
+                # DLM hyper parameters
+                results['sigma_trend'][:, pressure, latitude] = res['sigma_trend']
+                results['sigma_seas'][:, pressure, latitude] = res['sigma_seas']
+                results['sigma_AR'][:, pressure, latitude] = res['sigma_AR']
+                results['rho_AR'][:, pressure, latitude] = res['rho_AR']
+                    
+                # Now try and delete the file
+                try:
+                    os.remove('{}/{}_pres{}_lat{}.pkl'.format(results_dir, results_filename, pressure, latitude))
+                except:
+                    pass
+            except:
+                pass
+
+    # Close the netCDF file
+    results.close()
+
+
 

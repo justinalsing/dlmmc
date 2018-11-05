@@ -28,9 +28,11 @@ The python script `dlm_lat_alt_mpi_run.py` is a template for how to run the DLM 
 
 `mpirun --use-hwthread-cpus -np 4 python dlm_lat_alt_mpi_run.py`
 
+I recommend you run this with a very small number of samples first (eg iter=3, warmup=1) to check it runs through, before embarking on a long run.
+
 **Citing this code**
 
 There is a paper in preparation to accompany the code (appearing soon). Until then, please contact us if you intend to use the code for a major project (justin.alsing@fysik.su.se).
 
-A description of the DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and the model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code. 
+A reasonably close description of the DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and the model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code. 
 

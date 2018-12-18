@@ -18,15 +18,15 @@ Once you have downloaded the code from this repository and installed the depende
 
 `python compile_stan_models.py`
 
-This compiles the all models on your machine, then you're ready to start DLMing!
+This pre-compiles all of the models on your machine, saves them in `models/`, and then you're ready to start DLMing!
 
 ### Usage
 
-** Functionality **
+**Functionality**
 
 A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses stratospheric ozone time-series data as a case study. This notebook takes you through step-by-step all of the functionality of the code: loading in your own data, running the DLM model, and processing and plotting the results. Please work through this notebook to get to grips with the code and contact me at justin.alsing@fysik.su.se if you have any questions.
 
-** Running in parallel with MPI **
+**Running in parallel with MPI**
 
 It's often necessary to perform regression of a large number time-series (eg., over a grid of observations at different altirudes/latitudes/longitudes) and is advantageous to be able to run these in parallel. The python script `dlm_lat_alt_mpi_run.py` is a template for how to run the DLM code over a grid of time-series at different latitudes/altitudes in parallel using MPI, and save the results to a netCDF file. This script has the additional dependency [tqdm](https://tqdm.github.io) if you want it to work with a progress bar. Provided you have MPI working, you can run this script with the command (using eg. 4 hyperthreaded processes, again make sure you run with python3)
 
@@ -34,17 +34,17 @@ It's often necessary to perform regression of a large number time-series (eg., o
 
 I recommend you run this with a very small number of samples first (eg iter=3, warmup=1) to check it runs through, before embarking on a long run.
 
-** Model descriptions **
+**Model descriptions**
 
-Mathematical descriptions of each of the DLM models implemented in this package can be found in the file `models/model_descriptions.pdf`. This file describes the parameters of each model and their physical meanings: make sure you have read and understand the model description before running a new model!
+Mathematical descriptions of each of the DLM models implemented in this package can be found in the file `models/model_descriptions.pdf`. This file contains a concise description of the parameters of each model, their physical meanings, and how to refer to them in the code: make sure you have read and understand the model description before running a new model!
 
 ### Citing this code
 
-There is a paper in preparation to accompany the code (appearing soon). Until then, please contact me if you intend to use the code for a major project (justin.alsing@fysik.su.se).
+There is a JOSS paper in preparation to accompany the code (appearing soon). Until then, please contact me if you intend to use the code for a major project (justin.alsing@fysik.su.se).
 
 A reasonably close description of the vanilla DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and the model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code.
 
 ### Contributions, reporting issues and feature requests
 
-If you want to contribute (eg., extended models) to this package, please contact me at justin.alsing@fysik.su.se (I welcome contributors). If you would like to request a feature to be included in the next update or would like to report an issue
+If you want to contribute (eg., extended models) to this package, please contact me at justin.alsing@fysik.su.se (I welcome contributors). If you would like to request a feature to be included in the next update or would like to report an issue, please use the issues channel associated with this Git repository.
 

@@ -24,7 +24,9 @@ This pre-compiles all of the models on your machine, saves them in `models/`, an
 
 **Functionality**
 
-A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses stratospheric ozone time-series data as a case study. This notebook takes you through step-by-step all of the functionality of the code: loading in your own data, running the DLM model, and processing and plotting the results. Please work through this notebook to get to grips with the code and contact me at justin.alsing@fysik.su.se if you have any questions.
+A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses stratospheric ozone time-series data as a case study. This notebook takes you through step-by-step all of the functionality of the code: loading in your own data, running the DLM model, and processing and plotting the results. Running through this notebook also ensures the dependencies and code are working correctly on your machine. 
+
+Please work through this notebook to get to grips with the code and contact me at justin.alsing@fysik.su.se if you have any questions.
 
 **Running in parallel with MPI**
 

@@ -2,7 +2,7 @@
 
 **Dynamical Linear Modelling** (DLM) regression code in python for analysis of time-series data. The code is targeted at atmospheric time-series analysis, with a worked example (and data) included for ozone, but is a fairly general state space model that can be applied to a range of problems.
 
-**Dependencies and installation** 
+### Dependencies and installation
 
 The code is Python 3. Install the following dependencies (using eg., pip install):
 
@@ -20,7 +20,7 @@ Once you have downloaded the code from this repository and installed the depende
 
 This compiles the all models on your machine, then you're ready to start DLMing!
 
-**Usage** 
+### Usage
 
 A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses ozone time-series data as a case study. Please work through this notebook to get to grips with the code and contact me at justin.alsing@fysik.su.se if you have any questions.
 
@@ -30,9 +30,13 @@ The python script `dlm_lat_alt_mpi_run.py` is a template for how to run the DLM 
 
 I recommend you run this with a very small number of samples first (eg iter=3, warmup=1) to check it runs through, before embarking on a long run.
 
-**Citing this code**
+### Citing this code
 
-There is a paper in preparation to accompany the code (appearing soon). Until then, please contact us if you intend to use the code for a major project (justin.alsing@fysik.su.se).
+There is a paper in preparation to accompany the code (appearing soon). Until then, please contact me if you intend to use the code for a major project (justin.alsing@fysik.su.se).
 
-A reasonably close description of the DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and the model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code. 
+A reasonably close description of the DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and the model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code.
+
+### Contributions, reporting issues and feature requests
+
+If you want to contribute (eg., extended models) to this package, please contact me at justin.alsing@fysik.su.se (I welcome contributors). If you would like to request a feature to be included in the next update or would like to report an issue
 

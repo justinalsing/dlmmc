@@ -2,11 +2,11 @@
 
 **Dynamical Linear Modelling** (DLM) regression code in python for analysis of time-series data. The code is targeted at atmospheric time-series analysis, with a detailed worked example (and data) included for stratospheric ozone, but is a fairly general state space model that can be applied or extended to a wide range of problems.
 
-The core of the code is a suite of DLM models (implemented in `Stan`) for efficient HMC sampling.
+The core of this package is a suite of DLM models (implemented in `Stan`) for efficient Bayesian (HMC) sampling. I provide a detailed easy-to-follow tutorial for how to read in your data and run the DLM model(s) implemented in this package on your own data.
 
 ### Dependencies and installation
 
-The code is Python 3 and has the following dependencies (which can be installed using eg., pip install):
+The code is python3 and has the following dependencies (which can be installed using eg., pip install):
 
 [numpy](http://www.numpy.org)<br/>
 [scipy](https://www.scipy.org)<br/>
@@ -44,7 +44,7 @@ Mathematical descriptions of each of the DLM models implemented in this package 
 
 There is a JOSS paper in preparation to accompany the code (appearing soon). Until then, please contact me if you intend to use the code for a major project (justin.alsing@fysik.su.se).
 
-A reasonably close description of the vanilla DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and the model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code.
+A reasonably close description of the vanilla DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and this model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code.
 
 ### Contributions, reporting issues and feature requests
 

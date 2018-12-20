@@ -25,7 +25,7 @@ Regression analysis of atmospheric time-series observations is a key endeavour f
 
 ``DLMMC`` provides a suite of DLM models for atmospheric time-series analysis, with a user friendly python interface, for use by the community. The DLM models and are based on [@laine2014] and have four main components: a dynamic seasonal cycle (with 6- and 12-month components), a smooth non-linear background trend, forcings from any number of user defined proxy variables (eg., solar activity, quasi-biennial oscillations, the El-Nino southern oscillation, etc), and an auto-regressive (AR) process. Models are implemented in stan [@stan] for efficient Hamiltonian Monte Carlo (HMC) sampling of the model parameters, and are straightforwardly extendable to include additional features if required.
 
-The code has already been used in a number of scientific publications, including [@ball2017], [@ball2018]. For a review of DLM for time-series analysis in the context of atmospheric data, see [@laine2014], or see [@durbinkoopman2012] for a more comprehensive review.
+The code has already been used in a number of scientific publications, including [@ball2017] and [@ball2018]. For a review of DLM for time-series analysis in the context of atmospheric data, see [@laine2014], or see [@durbinkoopman2012] for a more comprehensive review.
 
 ## Advantages of DLM over traditional MLR methods
 

@@ -1,4 +1,4 @@
-# DLM
+# DLMMC
 
 **Dynamical Linear Modelling** (DLM) regression code in python for analysis of time-series data. The code is targeted at atmospheric time-series analysis, with a detailed worked example (and data) included for stratospheric ozone, but is a fairly general state space model that can be applied or extended to a wide range of problems.
 

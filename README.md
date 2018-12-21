@@ -2,7 +2,7 @@
 
 **Dynamical Linear Modelling** (DLM) regression code in python for analysis of time-series data. The code is targeted at atmospheric time-series analysis, with a detailed worked example (and data) included for stratospheric ozone, but is a fairly general state space model that can be applied or extended to a wide range of problems.
 
-The core of this package is a suite of DLM models (implemented in `Stan`) for efficient Bayesian (HMC) sampling. I provide a detailed easy-to-follow tutorial for how to read in your data and run the DLM model(s) implemented in this package on your own data.
+The core of this package is a suite of DLM models (implemented in [stan](https://mc-stan.org)), using a combination of efficient HMC sampling and Kalman filtering to infer the DLM model parameters (trend, seasonal cycle, auto-regressive processes etc) given some data. To make the code as accessible as possible, I provide a detailed easy-to-follow tutorial in python for how to read in your data and run the DLM model(s) implemented in this package on your own data.
 
 ### Dependencies and installation
 

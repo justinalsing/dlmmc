@@ -65,9 +65,6 @@ def create_results_netcdf(results_dir, results_filename, L, P, T, n_samples, nre
     SEASONAL_MEAN = results.createVariable('seasonal_mean', float, ('pressure', 'latitude', 'time'), zlib=True)
     SEASONAL_STD = results.createVariable('seasonal_std', float, ('pressure', 'latitude', 'time'), zlib=True)
 
-    RESIDUALS_MEAN = results.createVariable('residuals_mean', float, ('pressure', 'latitude', 'time'), zlib=True)
-    RESIDUALS_STD = results.createVariable('residuals_std', float, ('pressure', 'latitude', 'time'), zlib=True)
-
     SLOPE_MEAN = results.createVariable('slope_mean', float, ('pressure', 'latitude', 'time'), zlib=True)
     SLOPE_STD = results.createVariable('slope_std', float, ('pressure', 'latitude', 'time'), zlib=True)
 
@@ -76,7 +73,7 @@ def create_results_netcdf(results_dir, results_filename, L, P, T, n_samples, nre
     SIGMA_TREND = results.createVariable('sigma_trend', float, ('nsamples', 'pressure', 'latitude'), zlib=True)
     SIGMA_SEAS = results.createVariable('sigma_seas', float, ('nsamples', 'pressure', 'latitude'), zlib=True)
     SIGMA_AR = results.createVariable('sigma_AR', float, ('nsamples', 'pressure', 'latitude'), zlib=True)
-    RHO_AR = results.createVariable('rho_AR', float, ('nsamples', 'pressure', 'latitude'), zlib=True)
+    rhoAR1 = results.createVariable('rhoAR1', float, ('nsamples', 'pressure', 'latitude'), zlib=True)
 
     results.close()
 
@@ -100,10 +97,6 @@ def add_results_to_netcdf(results_dir, results_filename, fit, pressure, latitude
     results['seasonal_mean'][pressure, latitude, :] = np.mean(fit.extract()['seasonal'][:,:], axis = 0)
     results['seasonal_std'][pressure, latitude, :] = np.std(fit.extract()['seasonal'][:,:], axis = 0)
     
-    # Residuals
-    results['residuals_mean'][pressure, latitude, :] = np.mean(fit.extract()['residuals'][:,:], axis = 0)
-    results['residuals_std'][pressure, latitude, :] = np.std(fit.extract()['residuals'][:,:], axis = 0)
-    
     # Regressor coefficients
     results['regressor_coefficients'][:, pressure, latitude, :] = fit.extract()['beta'][:,:]
 
@@ -111,7 +104,7 @@ def add_results_to_netcdf(results_dir, results_filename, fit, pressure, latitude
     results['sigma_trend'][:, pressure, latitude] = fit.extract()['sigma_trend']
     results['sigma_seas'][:, pressure, latitude] = fit.extract()['sigma_seas']
     results['sigma_AR'][:, pressure, latitude] = fit.extract()['sigma_AR']
-    results['rho_AR'][:, pressure, latitude] = fit.extract()['rhoAR']
+    results['rhoAR1'][:, pressure, latitude] = fit.extract()['rhoAR1']
     
     # Close the netCDF file
     results.close()
@@ -126,13 +119,11 @@ def save_results(results_dir, results_filename, fit, pressure, latitude):
                 'slope_std':np.std(fit.extract()['slope'][:,:], axis = 0),
                 'seasonal_mean':np.mean(fit.extract()['seasonal'][:,:], axis = 0),
                 'seasonal_std':np.std(fit.extract()['seasonal'][:,:], axis = 0),
-                'residuals_mean':np.mean(fit.extract()['residuals'][:,:], axis = 0),
-                'residuals_std':np.std(fit.extract()['residuals'][:,:], axis = 0),
                 'regressor_coefficients':fit.extract()['beta'][:,:],
                 'sigma_trend':fit.extract()['sigma_trend'],
                 'sigma_seas':fit.extract()['sigma_seas'],
                 'sigma_AR':fit.extract()['sigma_AR'],
-                'rho_AR':fit.extract()['rhoAR']
+                'rhoAR1':fit.extract()['rhoAR1']
                 }
 
     with open('{}/{}_pres{}_lat{}.pkl'.format(results_dir, results_filename, pressure, latitude), 'wb') as f:
@@ -165,10 +156,6 @@ def convert_to_netcdf(results_dir, results_filename, P, L):
                 results['seasonal_mean'][pressure, latitude, :] = res['seasonal_mean']
                 results['seasonal_std'][pressure, latitude, :] = res['seasonal_std']
                 
-                # Residuals
-                results['residuals_mean'][pressure, latitude, :] = res['residuals_mean']
-                results['residuals_std'][pressure, latitude, :] = res['residuals_std']
-                
                 # Regressor coefficients
                 results['regressor_coefficients'][:, pressure, latitude, :] = res['regressor_coefficients']
                 
@@ -176,7 +163,7 @@ def convert_to_netcdf(results_dir, results_filename, P, L):
                 results['sigma_trend'][:, pressure, latitude] = res['sigma_trend']
                 results['sigma_seas'][:, pressure, latitude] = res['sigma_seas']
                 results['sigma_AR'][:, pressure, latitude] = res['sigma_AR']
-                results['rho_AR'][:, pressure, latitude] = res['rho_AR']
+                results['rhoAR1'][:, pressure, latitude] = res['rhoAR1']
                     
                 # Now try and delete the file
                 try:
@@ -191,3 +178,25 @@ def convert_to_netcdf(results_dir, results_filename, P, L):
 
 
 
+def sampling_rate(rate):
+    if rate == 'monthly':
+        return 1
+    if rate == 'daily':
+        return 12./365.25
+    if rate == 'annual':
+        return 12.
+    else:
+        print("sampling rate not recognised: must be one of `monthly`, `annual` or `daily`. Please choose an appropriate data sampling rate and try again.")
+
+def prepare_missing_data(d, s):
+    d_masked = np.zeros(len(d))
+    s_masked = np.zeros(len(s))
+    
+    mask = np.where(np.isnan(d) == True)[0]
+    not_mask = np.where(np.isnan(d) == False)[0]
+    d_masked[mask] = np.mean(d[not_mask])
+    d_masked[not_mask] = d[not_mask]
+    s_masked[mask] = 1e20
+    s_masked[not_mask] = s[not_mask]
+
+    return d_masked, s_masked

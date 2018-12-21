@@ -15,8 +15,8 @@ results_filename = 'BASIC_V1_2017'
 
 # How many MCMC chains/samples to do
 n_chains = 1
-warmup = 1000
-iterations = 3000
+warmup = 1
+iterations = 3
 n_samples = n_chains*(iterations-warmup)
 
 # MPI comm, number of processes and rank info
@@ -25,7 +25,7 @@ nprocs=comm.Get_size()
 myrank=comm.Get_rank()
 
 # Import the DLM model
-model_kalman_ar1 = pickle.load(open('models/dlm_kalman_ar1.pkl', 'rb'))
+model_kalman_ar1 = pickle.load(open('models/dlm_vanilla_ar1.pkl', 'rb'))
 
 # Import the data
 
@@ -101,6 +101,9 @@ for ind in indicies:
     # Extract the error-bars on the time-series from the netCDF
     s = data['o3_sigma'][:, pressure, latitude]
     
+    # Prepare missing (NaN) values
+    d, s = prepare_missing_data(d, s)
+    
     # Check if the data are there
     if np.mean(d) != 0:
 
@@ -114,6 +117,7 @@ for ind in indicies:
                         'N':N, # (int) number of time-steps in the time-series
                         'nreg':nregs, # (int) number of regressors
                         'regressors':regressors, # float[N, nreg] the regressors
+                        'sampling':sampling_rate("monthly"), # sampling rate of the data, must be "daily", "monthly" or "annual"
                         'S':10., # prior variance on the regression coefficients (priors are zero mean Gaussian with variance S)
                         'sigma_trend_prior':1e-4, # std-dev of the half-Gaussian prior on sigma_trend that controls how wiggly the trend can be
                         'sigma_seas_prior':0.01, # std-dev of the half-Gaussian prior on sigma_seas that controls how dynamic the seaonal cycle can be
@@ -125,12 +129,12 @@ for ind in indicies:
                          'sigma_trend':0.0001,
                          'sigma_seas':0.001,
                          'sigma_AR':0.01,
-                         'rhoAR':0.1,
+                         'rhoAR1':0.1,
                         }
 
         # Run the model
         with suppress_stdout_stderr():
-            fit = model_kalman_ar1.sampling(data=input_data, iter=iterations, warmup=warmup, chains=n_chains, init = [initial_state for i in range(n_chains)], verbose=False, pars=('sigma_trend', 'sigma_seas', 'sigma_AR', 'rhoAR', 'trend', 'slope', 'beta', 'seasonal', 'residuals'))
+            fit = model_kalman_ar1.sampling(data=input_data, iter=iterations, warmup=warmup, chains=n_chains, init = [initial_state for i in range(n_chains)], verbose=False, pars=('sigma_trend', 'sigma_seas', 'sigma_AR', 'rhoAR1', 'trend', 'slope', 'beta', 'seasonal'))
 
         # Put the relevant bits into the netCDF...
         save_results(results_dir, results_filename, fit, pressure, latitude)

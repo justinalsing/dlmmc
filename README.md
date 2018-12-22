@@ -30,7 +30,7 @@ A detailed annotated tutorial walk-through of how to use the code is given in th
 
 **Running in parallel with MPI**
 
-It's often necessary to perform regression of a large number time-series (eg., over a grid of observations at different altirudes/latitudes/longitudes) and is advantageous to be able to run these in parallel. The python script `dlm_lat_alt_mpi_run.py` is a template for how to run the DLM code over a grid of time-series at different latitudes/altitudes in parallel using MPI, and save the results to a netCDF file. This script has the additional dependency [tqdm](https://tqdm.github.io) if you want it to work with a progress bar. Provided you have MPI working, you can run this script with the following command (using eg. 4 hyperthreaded processes, again make sure you run with python3):
+It's often necessary to perform regression of a large number time-series (eg., over a grid of observations at different altitudes/latitudes/longitudes) and is advantageous to be able to run these in parallel. The python script `dlm_lat_alt_mpi_run.py` is a template for how to run the DLM code over a grid of time-series at different latitudes/altitudes in parallel using MPI, and save the results to a single netCDF file. This script has the additional dependency [tqdm](https://tqdm.github.io) if you want it to work with a progress bar. Provided you have MPI working, you can run this script with the following command (using eg. 4 hyperthreaded processes, again make sure you run with python3):
 
 `mpirun --use-hwthread-cpus -np 4 python dlm_lat_alt_mpi_run.py`
 
@@ -44,7 +44,7 @@ Mathematical descriptions of each of the DLM models implemented in this package 
 
 There is a JOSS paper in preparation to accompany the code (appearing soon). Until then, please contact me if you intend to use the code for a major project (justin.alsing@fysik.su.se).
 
-A reasonably close description of the vanilla DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and this model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code.
+A close description of the vanilla DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and this model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code.
 
 ### Contributions, reporting issues and feature requests
 

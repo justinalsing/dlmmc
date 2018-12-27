@@ -15,6 +15,7 @@ affiliations:
  - name: Center for Computational Astrophysics, Flatiron Institute, New York
    index: 2
  - name: Imperial Centre for Inference and Cosmology, Imperial College London, London
+   index: 3
 date: 19 December 2018
 bibliography: paper.bib
 ---

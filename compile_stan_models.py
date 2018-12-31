@@ -14,7 +14,7 @@ f.close()
 
 model_noregs_ar1 = pystan.StanModel(model_code=dlm_noregs_ar1)
 f = open('models/dlm_noregs_ar1.pkl', 'wb')
-pickle.dump(model_vanilla_ar1, f)
+pickle.dump(model_noregs_ar1, f)
 f.close()
 
 model_dynregs_ar1 = pystan.StanModel(model_code=dlm_dynregs_ar1)

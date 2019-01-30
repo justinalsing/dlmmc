@@ -14,7 +14,7 @@ A more detailed work-flow for implementing a new model is as follows:
 2. **Update the `data{}` block** to add any additional data / quantities that are required to build your model matrices.
 3. **Update the `transformed_data{}` block**, replacing the model matrix **F** construction with your own requirements and making sure the length of the state vector `nx` is correct for your new model.
 4. **Update the `transformed_parameters{}` block** replacing the model matrices **G**, **W** and **C** constructions with your derived model matrices.
-5. **Update the `model{}` block** to include any new hyper-parameters that your model has. New hyper-parameters need to be declared along with the other existing hyper-parameters at the top of this code block, and then a prior can be imposed.
+5. **Update the `model{}` block** to include any new hyper-parameters that your model has. New hyper-parameters need to be declared along with the other existing hyper-parameters at the top of this code block, and then a prior can be imposed. This is painless if you follow what was done for the other hyper-parameters (it requires just two new lines of code per additional hyper-parameter).
 6. **Update the `generated_quantities{}` block** to extract the new bits of your model from the state vector. At the end of this block of code (the last loop in each stan model code), there is a loop which takes the state vector **x** and extracts from it the various components of your model (trend, seasonal cycle, etc). This is useful to make post-processing the output easier. In your new model, you should add lines of code here (following what was done for the other components of the state vector) to extract the various components of your model from **x**.
 7. **Compile and run the model.** Once you think you're done coding your new model, you'll need to compile it. This can be done with the following python code:
 
@@ -30,11 +30,7 @@ If it compiles OK, go ahead and run it on your data own (following `dlm_tutorial
 
 When you are happy that your new model is working and is stable, you should add the following (example) code to `compile_stan_models.py` so that users can automatically compile your model when they download/pull the code:
 
-```import pystan
-import pickle
-from models.stan_dlm_models import *
-
-my_new_model = pystan.StanModel(model_code=my_new_model)
+```my_new_model = pystan.StanModel(model_code=my_new_model)
 f = open('models/my_new_model.pkl', 'wb')
 pickle.dump(my_new_model, f)
 f.close()

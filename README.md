@@ -30,7 +30,7 @@ Note: conda seems to be more stable for getting pystan to work than pip - if you
 
 **Functionality**
 
-A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses stratospheric ozone time-series data as a case study. The notebook takes you step-by-step through the complete functionality of the code: loading in your own data, running the DLM model, and processing and plotting the results.  
+A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses stratospheric ozone time-series data as a case study. The notebook takes you step-by-step through the complete functionality of the code: loading in your own data, running the DLM model, and processing and plotting the results. The tutorial also serves as a test that the install was successful and the compiled models run smoothly. 
 
 **Running in parallel with MPI**
 

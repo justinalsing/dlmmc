@@ -28,7 +28,7 @@ Regression analysis of atmospheric time-series observations is a key endeavour f
 
 The basic set of DLM models and are based on [@laine2014] and have four main components: a dynamic seasonal cycle (with 6- and 12-month components), a smooth non-linear background trend, forcings from any number of user defined proxy variables (eg., solar activity, quasi-biennial oscillations, the El-Nino southern oscillation, etc), and an auto-regressive (AR) process. These models were originally built with stratospheric research in mind, but can be applied or modified for other climate/atmospheric time-series analysis (or more general time-series analysis problems).
 
-The DLM models in this suite can be readily extended to more complex DLM models with additional components; ``DLMMC`` provides a generic and efficient HMC-Kalman filtering framework for DLM regression.
+The DLM models in this suite can be readily extended to more complex models with additional components; ``DLMMC`` provides a general-purpose and efficient HMC-Kalman filtering framework for DLM regression analysis.
 
 The code has already been used in a number of scientific publications, including [@ball2017] and [@ball2018]. For DLM in the context of stratospheric time-series, see [@laine2014] (on which this code was inspired), or see [@durbinkoopman2012] for a more comprehensive review of time-series analysis with state-space models.
 

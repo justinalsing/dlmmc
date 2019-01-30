@@ -4,6 +4,8 @@
 
 The core of this package is a suite of DLM models implemented in [stan](https://mc-stan.org), using a combination of HMC sampling and Kalman filtering to infer the DLM model parameters (trend, seasonal cycle, auto-regressive processes etc) given some time-series data. To make the code as accessible as possible, I provide a step-by-step tutorial in python for how to read in your data, run the DLM model(s), and process the outputs to make nice plots. Once you've worked through this tutorial you should have all the tools you need to apply DLM to your own data!
 
+Note: some basic working knowledge of python and jupyter notebooks is required to make the most of this package (but it's not too onerous).
+
 ### Installation
 
 The code is python3 and has the following dependencies, which can be installed using either conda install or pip install:

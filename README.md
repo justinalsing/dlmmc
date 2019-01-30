@@ -6,7 +6,7 @@ The core of this package is a suite of DLM models implemented in [stan](https://
 
 ### Installation
 
-The code is python3 and has the following dependencies (which can be installed using eg., pip install):
+The code is python3 and has the following dependencies, which can be installed using either conda install or pip install:
 
 [numpy](http://www.numpy.org)<br/>
 [scipy](https://www.scipy.org)<br/>
@@ -14,7 +14,7 @@ The code is python3 and has the following dependencies (which can be installed u
 [netCDF4](https://pypi.org/project/netcdf/)<br/>
 [pystan](https://pystan.readthedocs.io/en/latest/)<br/>
 
-If you want to run multiple DLMs in parallel with MPI, you will also need [openmpi](https://www.open-mpi.org) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/install.html) (again easily done with pip).
+If you want to run multiple DLMs in parallel with MPI, you will also need [openmpi](https://www.open-mpi.org) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/install.html) (again easily done with conda or pip).
 
 Once you have downloaded the code from this repository and installed the dependencies, run the following script (make sure in python3):
 

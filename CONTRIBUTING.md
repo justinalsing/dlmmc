@@ -6,7 +6,7 @@ Note that in order to contribute new models, you will need to be able to write c
 
 ## Conding extended models
 
-The suite of DLM models implemented here are completely characterized by the matrices **F**, **G**, **W** and **C** (described in the file `model_descriptions.pdf`). In order to develop a new DLM model within dlmmc, more-or-less all you need to do is work out what the matrices of your model are, copy one of the existing stan models in `models/stan_dlm_models.py` and replace the matrices with your own needs. You'll then need to add some lines to `compile_stan_models.py` (copy-paste from the other examples) and re-run `compile_stan_models.py` to compile your new model.
+The suite of DLM models implemented here are completely characterized by the matrices **F**, **G**, **W** and **C** (described in the file `model_descriptions.pdf`). In order to develop a new DLM model within dlmmc, more-or-less all you need to do is work out what the matrices of your model are, copy one of the existing stan models in `models/stan_dlm_models.py` and replace the matrices with your own needs. The likelihood and Kalman filtering steps that makes up the bulk of the code for each model does not need changing for new models, so the modifications required to implement a new model are relatively light.
 
 A more detailed work-flow for implementing a new model is as follows:
 
@@ -14,14 +14,27 @@ A more detailed work-flow for implementing a new model is as follows:
 2. **Update the `data{}` block** to add any additional data / quantities that are required to build your model matrices.
 3. **Update the `transformed_data{}` block**, replacing the model matrix **F** construction with your own requirements and making sure the length of the state vector `nx` is correct for your new model.
 4. **Update the `transformed_parameters{}` block** replacing the model matrices **G**, **W** and **C** constructions with your derived model matrices.
-5. **Update the `generated_quantities{}` block** to extract the new bits of your model from the state vector. At the end of this block of code (the last loop in each stan model code), there is a loop which takes the state vector **x** and extracts from it the various components of your model (trend, seasonal cycle, etc). This is useful to make post-processing the output easier. In your new model, you should add lines of code here (following what was done for the other components of the state vector) to extract the various components of your model from **x**.
-
-Once you think you're done coding your new model, you'll need to compile it. This can be done with the following python code:
+5. **Update the `model{}` block** to include any new hyper-parameters that your model has. New hyper-parameters need to be declared along with the other existing hyper-parameters at the top of this code block, and then a prior can be imposed.
+6. **Update the `generated_quantities{}` block** to extract the new bits of your model from the state vector. At the end of this block of code (the last loop in each stan model code), there is a loop which takes the state vector **x** and extracts from it the various components of your model (trend, seasonal cycle, etc). This is useful to make post-processing the output easier. In your new model, you should add lines of code here (following what was done for the other components of the state vector) to extract the various components of your model from **x**.
+7. **Compile and run the model.** Once you think you're done coding your new model, you'll need to compile it. This can be done with the following python code:
 
 `import pystan`
 `from models.stan_dlm_models import *`
 
 `my_new_model = pystan.StanModel(model_code=my_new_model)`
 
-If it compiles, go ahead and run it on your data following `dlm_tutorial.ipynb`.
+If it compiles OK, go ahead and run it on your data own (following `dlm_tutorial.ipynb`).
+
+## Once you are happy with your new model
+
+When you are happy that your new model is working and is stable, you should add the following (example) code to `compile_stan_models.py` so that users can automatically compile your model when they download/pull the code:
+
+`import pystan`
+`import pickle`
+`from models.stan_dlm_models import *`
+
+`my_new_model = pystan.StanModel(model_code=my_new_model)`
+`f = open('models/my_new_model.pkl', 'wb')`
+`pickle.dump(my_new_model, f)`
+`f.close()`
 

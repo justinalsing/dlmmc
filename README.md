@@ -50,5 +50,5 @@ A close description of the vanilla DLM model implemented here can be found in [L
 
 ### Contributions, reporting issues and feature requests
 
-If you want to contribute (eg., extended models) to this package, please contact me at justin.alsing@fysik.su.se (I welcome contributors). If you would like to request a feature to be included in the next update, or report an issue, please use the issues channel associated with this Git repository.
+If you want to contribute eg., extended models to this package, I provide some instructions for how to develop your own model within the dlmmc framework in the `CONTRIBUTING` file. If you are interested in collaborating on extended models, feel free to contact me at justin.alsing@fysik.su.se. If you would like to request a feature to be included in the next update, or report an issue, please use the issues channel associated with this Git repository.
 

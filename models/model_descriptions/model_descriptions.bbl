@@ -1,0 +1,49 @@
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Laine et~al.(2014)Laine, Latva-Pukkila, and Kyr{\"o}l{\"a}]{laine2014}
+Marko Laine, N~Latva-Pukkila, and E~Kyr{\"o}l{\"a}.
+\newblock Analysing time-varying trends in stratospheric ozone time series
+  using the state space approach.
+\newblock \emph{Atmospheric Chemistry and Physics}, 14\penalty0 (18):\penalty0
+  9707--9725, 2014.
+\newblock \doi{10.5194/acp-14-9707-2014}.
+\newblock URL \url{https://doi.org/10.5194/acp-14-9707-2014}.
+
+\bibitem[Durbin and Koopman(2012)]{durbinkoopman2012}
+James Durbin and Siem~Jan Koopman.
+\newblock \emph{Time series analysis by state space methods}, volume~38.
+\newblock Oxford University Press, 2012.
+\newblock \doi{10.1093/acprof:oso/9780199641178.001.0001}.
+\newblock URL \url{http://doi.org/10.1093/acprof:oso/9780199641178.001.0001}.
+
+\bibitem[Ball et~al.(2017)Ball, Alsing, Mortlock, Rozanov, Tummon, and
+  Haigh]{ball2017}
+William~T Ball, Justin Alsing, Daniel~J Mortlock, Eugene~V Rozanov, Fiona
+  Tummon, and Joanna~D Haigh.
+\newblock Reconciling differences in stratospheric ozone composites.
+\newblock \emph{Atmospheric Chemistry and Physics}, 17\penalty0 (20):\penalty0
+  12269--12302, 2017.
+\newblock \doi{10.5194/acp-17-12269-2017}.
+\newblock URL \url{https://doi.org/10.5194/acp-17-12269-2017}.
+
+\bibitem[Ball et~al.(2018)Ball, Alsing, Mortlock, Staehelin, Haigh, Peter,
+  Tummon, St{\"u}bi, Stenke, Anderson, Bourassa, Davis, Degenstein, Frith,
+  Froidevaux, Roth, Sofieva, Wang, Wild, Yu, Ziemke, and Rozanov]{ball2018}
+William~T Ball, Justin Alsing, Daniel~J Mortlock, Johannes Staehelin, Joanna~D
+  Haigh, Thomas Peter, Fiona Tummon, Rene St{\"u}bi, Andrea Stenke, John
+  Anderson, Adam Bourassa, Sean Davis, Doug Degenstein, Stacey Frith, Lucien
+  Froidevaux, Chris Roth, Viktoria Sofieva, Ray Wang, Jeannette Wild, Pengfei
+  Yu, Jerald Ziemke, and Eugene Rozanov.
+\newblock Evidence for a continuous decline in lower stratospheric ozone
+  offsetting ozone layer recovery.
+\newblock \emph{Atmospheric Chemistry and Physics}, 18\penalty0 (2):\penalty0
+  1379--1394, 2018.
+\newblock \doi{10.5194/acp-18-1379-2018}.
+\newblock URL \url{https://doi.org/10.5194/acp-18-1379-2018}.
+
+\end{thebibliography}

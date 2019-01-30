@@ -1,0 +1,224 @@
+\documentclass[a4paper, oneside, final]{scrartcl}
+\usepackage{soul}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{lmodern}
+ \usepackage{fullpage}
+ \usepackage{graphicx}
+  \usepackage{natbib}
+ \usepackage{float}
+ \usepackage{amsmath,array,amsfonts}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
+ \usepackage[T1]{fontenc}
+%\usepackage[math]{iwona}
+\usepackage[top = 1.00cm,bottom = 1.00cm,left   = 1.5cm,right  = 1.5cm]{geometry}
+\usepackage{mdwlist}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{inconsolata}
+\usepackage{rotating}
+\usepackage{adjustbox}
+\usepackage{array}
+
+\newcolumntype{R}[2]{%
+    >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
+    l%
+    <{\egroup}%
+}
+\newcommand*\rot{\multicolumn{1}{R{45}{1em}}}% no optional argument here, please!
+
+
+\newcommand{\HI}{H{\,\small I}}
+\newcommand{\ltsima} {$\; \buildrel < \over \sim \;$}
+\newcommand{\gtsima} {$\; \buildrel > \over \sim \;$}
+\newcommand{\lta} {\lower.5ex\hbox{\ltsima}}
+\newcommand{\gta} {\lower.5ex\hbox{\gtsima}}
+\newcommand{\kmsMp}{km s$^{-1}$ Mpc$^{-1}$}
+\newcommand{\kms}{km~s$^{-1}$}
+\newcommand{\FRI}{FR{-\small I}}
+\newcommand{\FRII}{FR{-\small II}}
+\newcommand{\OIII}{O{\,\small III}}
+\newcommand{\HII}{H{\,\small II}}
+\newcommand{\mnras}{MNRAS}
+\newcommand{\apj}{ApJ}
+\newcommand{\aap}{A\&A}
+\newcommand{\aaps}{A\&AS}
+\newcommand{\apjs}{ApJS}
+\newcommand{\apjl}{ApJL}
+\newcommand{\araa}{ARA\&A}
+\newcommand{\prd}{Phys.Rev.D}
+\newcommand{\aj}{AJ}
+\newcommand{\nat}{Nature}
+\newcommand{\jcap}{JCAP}
+\newcommand{\physrep}{Phys.Rep.}
+% \newcommand{\be}{\begin{equation}}
+% \newcommand{\ee}{\end{equation}}
+\def\f{\frac}
+\def\nn{\nonumber}
+\def\ln{\mathrm{ln}}
+\def\exp{\mathrm{exp}}
+\def\cov{\mathbf{C}}
+\def\noise{\mathbf{N}}
+\def\isotropic{\mathbf{T}}
+\def\aniso{\bar{\mathbf{N}}}
+\def\field{\mathbf{s}}
+\def\data{\mathbf{d}}
+\def\messenger{\mathbf{t}}
+\def\bs{\boldsymbol}
+
+\begin{document}
+%\footskip = -50pt
+%\pagestyle{empty}
+%\addtolength{\voffset}{-1cm}
+%\Large{\so{Justin Alsing: Research Proposal}} \titlerule\\
+%\titlerule 
+\titleformat{\section}{\center\Large\scshape\raggedright}{}{0em}{}
+%\vspace{-0.25cm}
+
+\section{dynamical linear models for analysis of atmospheric time-series}
+
+In this document we give a summary of the DLM time-series models implemented in this code package. We will describe a DLM model for atmospheric time-series with four key components: a smoothly varying non-linear background trend, a seasonal cycle comprised of two components with 12- and 6-month periods respectively, forcings described by a number regressor variables, and an auto-regressive process. We follow closely the notation used in \citet{laine2014}. Whilst we aim to give a clear and concise description of the model(s), this document is not meant to serve as a pedagogical introduction to DLM regression. For a more comprehensive review of DLM time-series analysis, see \citet{durbinkoopman2012}.
+
+\section{DLM model}
+%
+In this section we describe the general DLM model, of which the various models implemented in this code package are special cases (described later on). 
+
+We model time-series observations $y_t$ at times $t$ as follows:
+\begin{align}
+\label{ss}
+&y_t = \mathbf{F}_t^T\mathbf{x}_t + v_t,\;v_t\sim\mathcal{N}(\mathbf{0}, V_t), \nonumber \\
+&\mathbf{x}_t = \mathbf{G}_{t}\mathbf{x}_{t-1} + \mathbf{w}_t,\;\mathbf{w}_t\sim\mathcal{N}(\mathbf{0}, \mathbf{W}_t),
+\end{align}
+where the $v_t$ is assumed zero-mean Gaussian measurement error with (time-dependent) variance $V_t$, $\mathbf{x}_t$ is the \emph{state} containing the (non-linear) trend, the seasonal cycle, dynamical coefficients of the regressor variables, and the auto-regressive (AR) process, and the unobserved state $\mathbf{x}_t$ is projected onto the observations through the \emph{observation matrix} $\mathbf{F}_t$. The stochastic evolution of the state is governed by the \emph{state evolution operator} $\mathbf{G}_t$ and the \emph{model error covariance} $\mathbf{W}_t$.
+
+We will assume the state is constituted by the (non-linear) trend, seasonal cycle with two components (with 6- and 12-month periods respectively), a number of regressor variables and an ARn process. The state, observation, evolution and model covariance matrices hence decompose into these four components:
+\begin{align}
+&\mathbf{x}_t = \left(\mathbf{x}^\mathrm{trend}_t,\; \mathbf{x}^\mathrm{seas}_t, \;\mathbf{x}^\mathrm{regressors}_t, \;\mathbf{x}^\mathrm{AR}_t\right),\;\;\mathbf{F}_t = \left(\mathbf{F}^\mathrm{trend}_t,\; \mathbf{F}^\mathrm{seas}_t, \;\mathbf{F}^\mathrm{regressors}_t, \;\mathbf{F}^\mathrm{AR}_t\right), \nonumber \\
+&\mathbf{G}_t = \mathrm{diag}\left(\mathbf{G}^\mathrm{trend}_t, \;\mathbf{G}^\mathrm{seas}_t, \;\mathbf{G}^\mathrm{regressors}_t, \;\mathbf{G}^\mathrm{AR}_t\right),\;\;\mathbf{W}_t = \mathrm{diag}\left(\mathbf{W}^\mathrm{trend}_t,\; \mathbf{W}^\mathrm{seas}_t,\; \mathbf{W}^\mathrm{regressors}_t,\; \mathbf{W}^\mathrm{AR}_t\right)
+\end{align}
+Let us describe each of these components in turn.
+%
+\subsubsection*{Non-linear trend}
+%
+We model the non-linear background trend with two hidden states, $\mathbf{x}^\mathrm{trend}_t=\left(\mu_t, \alpha_t\right)$, where $\mu_t$ is the trend value at time $t$ and $\alpha_t$ is the change from time $t$ to $t+1$, governed by
+\begin{align}
+\label{trend}
+\mu_t = \mu_{t-1} + \alpha_{t-1} \nonumber \\
+\alpha_t = \alpha_{t-1} + \epsilon_\mathrm{trend},
+\end{align}
+where $\epsilon_\mathrm{trend}\sim \mathcal{N}(0, \sigma_\mathrm{trend})$ is a zero-mean Gaussian random variate with standard deviation $\sigma_\mathrm{trend}$. Hence, the background trend is modeled by a locally linear model with slope $\alpha_t$, where the slope is allowed to vary stochastically in time. 
+
+The rate at which the slope can evolve, and hence the non-linearity of the background trend, is governed entirely by the parameter $\sigma_\mathrm{trend}$; larger values of $\sigma_\mathrm{trend}$ will lead to more non-linear background evolution (on shorter timescales), while the limit $\sigma_\mathrm{trend}\rightarrow 0$ recovers a linear trend model (with constant slope). In the fits we keep $\sigma_\mathrm{trend}$ as a free parameter to be fit simultaneously with the rest of the regression model; this way, the data can decide (within reasonable prior constraints) how non-linear the background trend should be.
+
+The state, observation, evolution and model covariance matrices governing the non-linear trend part of the model are given by:
+\begin{align}
+\mathbf{x}^\mathrm{trend}_t=\left(\mu_t, \alpha_t\right),\;\;
+\mathbf{F}^\mathrm{trend}_t = \left(1, 0\right),\;\;
+\mathbf{G}^\mathrm{trend}_t = \begin{pmatrix} 1 & 1 \\
+0 & 1\end{pmatrix},\;\;\mathbf{W}^\mathrm{trend}_t =\begin{pmatrix} 0 & 0 \\
+0 & \sigma_\mathrm{trend}^2\end{pmatrix} 
+\end{align}
+The observation matrix ensures that only the trend $\mu_t$ enters into the observations $y_t$ (Eq. \ref{ss}), and the evolution and model error covariance matrices ensure the trend evolves according to Eq. \ref{trend}.
+%
+\subsubsection*{Seasonal cycle}
+The two-component seasonal cycle is modeled as follows:
+\begin{align}
+&\mathbf{x}^\mathrm{seas}_t = \left(u_{12,t}, u_{12,t}^*, u_{6,t}, u_{6,t}^*\right),\;\;
+\mathbf{F}^\mathrm{seas}_t = \left(1, 0, 1, 0\right),\;\;
+\mathbf{G}^\mathrm{seas}_t = \mathrm{diag}\left(\mathbf{G}^\mathrm{seas}_{12,\,t},\;\mathbf{G}^\mathrm{seas}_{6,\,t}\right),\;\;
+\mathbf{W}^\mathrm{seas}_t = \mathrm{diag}\left(\mathbf{W}^\mathrm{seas}_{12,\,t},\;\mathbf{W}^\mathrm{seas}_{6,\,t}\right) \nonumber \\
+&\mathbf{G}^\mathrm{seas}_{k,\,t} = \begin{pmatrix} \mathrm{cos}(k\,2\pi/12) & \mathrm{sin}(k\,2\pi/12) \\
+-\mathrm{sin}(k\,2\pi/12) & \mathrm{cos}(k\,2\pi/12)\end{pmatrix},
+\mathbf{W}^\mathrm{seas}_{k,\,t} =\begin{pmatrix} \sigma_\mathrm{seas}^2 & 0 \\
+0 & \sigma_\mathrm{seas}^2\end{pmatrix},
+\end{align}
+where $u_{k,\,t}$ denote the amplitudes of the orthogonal sinusoidal seasonal components, which can evolve stochastically in time. The degree to which the seasonal cycle amplitude and phase can evolve in time is governed entirely by the parameter $\sigma_\mathrm{seas}$: setting $\sigma_\mathrm{seas}=0$ corresponds to a constant amplitude and phase seasonal cycle, whilst $\sigma_\mathrm{seas} >0$ allows for evolution in the amplitude and phase of the seasonal cycle over time. We keep $\sigma_\mathrm{seas}$ as an additional free parameter to be fit alongside the rest of the regression model, allowing for modulation of the seasonal variability if this is preferred by the data.
+
+For monthly data, the 6- and 12-month seasonal components are described by setting $k=2$ and $k=1$ respectively. For daily or annual data these are scaled accordingly.
+%
+\subsubsection*{Forcing via regressor variables}
+%
+The forcing described by $n$ regressor variables, where we have a corresponding time-series $z_t$ for each regressor, enters into the DLM model as follows:
+\begin{align}
+&\mathbf{x}^\mathrm{regressors}_t = \left(\beta_{1\;t}, \beta_{2,\;t}, \dots \beta_{n,\;t}\right),\;\;\mathbf{F}^\mathrm{regressors}_t = \left(z_{1,\,t}, z_{2,\,t}, \dots z_{n,\,t}\right),\;\;\mathbf{G}^\mathrm{regressors}_t = \mathbf{I}_{n\times n},\nonumber \\
+&\mathbf{W}^\mathrm{regressors}_t=\mathrm{diag}\left(\sigma_{z_1}^2, \sigma_{z_2}^2, \dots \sigma_{z_n}^2, \right),
+\end{align}
+where $\mathbf{I}_{n\times n}$ is the identity matrix, and $\sigma_{z_i}$ allows for time-dependent evolution of the amplitudes of the regressors $\beta_{i,\;t}$. The parameters $\sigma_{z_i}$ controls the allowed degree of time-variability in the amplitude of the regressors, where $\sigma_{z_i}=0$ denotes constant (in time) amplitudes. In this case, the amplitudes $\beta_i$ can be interpreted in much the same manner as for multiple linear regression analyses. However, in general $\sigma_{z_i}$ can be kept as free parameters and fit alongside the rest of the regression model, so the data can determine whether time-varying regressor amplitudes are preferred.
+%
+\subsubsection*{ARn process}
+%
+The ARn process $q_t\sim\mathrm{AR}n$ enters into the DLM model as follows:
+\begin{align}
+\label{dlmlast}
+\mathbf{x}^\mathrm{AR}_t = \left(q_t, q_{t-1}\dots,q_{t-(n-1)}\right),\;\;\mathbf{F}^\mathrm{AR}_t = \left(1, 0,\dots,0\right),\;\;\mathbf{G}^\mathrm{AR}_t = \begin{pmatrix} \rho_1 & \rho_2 & \dots & \rho_n \\
+1 & 0 & \dots & 0 \\
+\vdots & & \ddots & 0 \\
+1 & 0 & \dots &0 \end{pmatrix},\;\;\mathbf{W}^\mathrm{AR}_t = \begin{pmatrix} \sigma_\mathrm{AR}^2 & 0 \\
+0 & 0 & \dots & 0 \\
+\vdots & & \ddots & \\
+0 & & & 0\end{pmatrix},
+\end{align}
+where the ARn parameters $\rho_1$, $\rho_2,\dots,\,\rho_n$ and $\sigma_\mathrm{AR}$ are kept as free parameters that are fit with the regression model. In this code package we include models with AR1 and AR2 processes, but the code is easily extendible to higher order AR processes.
+%
+\section{Model parameters and priors}
+%
+In order to perform Bayesian inference under the DLM model described above, we must define priors over the hyper-parameters and the
+initial state $\mathbf{x}_0$. We choose the following priors as standard in the code:
+\begin{align}
+&\sigma_\mathrm{trend} \sim \mathrm{HalfNormal}(0, \sigma_\mathrm{trend}^{prior}) \nonumber \\
+&\sigma_\mathrm{seas} \sim \mathrm{HalfNormal}(0, \sigma_\mathrm{seas}^{prior}) \nonumber \\
+&\boldsymbol{\sigma}_\mathrm{z} \sim \mathrm{HalfNormal}(\mathbf{0}, \boldsymbol{\sigma}_\mathrm{z}^{prior}) \nonumber \\
+&\sigma_\mathrm{AR} \sim \mathrm{HalfNormal}(0, \sigma_\mathrm{AR}^{prior}) \nonumber \\
+&\rho_i  \sim \mathrm{Uniform}(-1, 1) \nonumber \\
+&\mathbf{x}_0 \sim \mathrm{Normal}(\mathbf{0}, \mathbf{I}\times S).
+\end{align}
+The user can control the widths of all priors (with exception of the AR correlations $\rho_i$), but default values are taken to be: $\sigma_\mathrm{trend}^{prior} = 10^{-4}$, $\sigma_\mathrm{seas}^{prior} = 10^{-2}$, $\boldsymbol{\sigma}_\mathrm{z}^{prior} = 10^{-4}\mathbf{I}$, $S=10$.
+%
+\section{specific model descriptions}
+%
+In this package we include implementations of a number of DLM models that all inherit from the general DLM model described above, but with certain specific specifications (eg., with certain features turned on or off). We describe the specs of each implemented model below:
+%
+\subsubsection*{dlm\_vanilla\_AR1}
+This is the go to model for most applications and has the following simplifications: $\sigma_{z,i} = 0$ for all regressors (so the regressor amplitudes are assumed to be constant in time), and as the name suggest an AR1 auto-regressive process. This model was used for analysis of stratospheric ozone data in \citet{ball2017} and \citet{ball2018}.
+%
+\subsubsection*{dlm\_vanilla\_AR2}
+As above (constant in time regressor amplitudes) but with an AR2 process.
+%
+\subsubsection*{dlm\_noregs\_AR1}
+This model has no regressors and is comprised only of a trend, seasonal cycle and auto-regressive (AR1) process.
+%
+\subsubsection*{dlm\_dynregs\_AR1}
+This is the full general model described above, with an AR1 auto-regressive process.
+
+\begin{table}
+\begin{center}
+\caption{Description of all of the inferred parameters available to each specific model implementation and how to refer to those parameters in the code. $N$ refers to the number of data points in the analyzed time-series, $n_\mathrm{reg}$ refers to the number of regressors that are used in the analysis.}
+\begin{tabular}{ccccccc}
+variable & name in code & type &
+\rot{dlm\_vanilla\_AR1} &
+\rot{dlm\_vanilla\_AR2} &
+\rot{dlm\_noregs\_AR1} & 
+\rot{dlm\_dynregs\_AR1} 
+    \\ \hline
+$\mu_t$ & \texttt{trend} & np.array(N) &  X   & X & X & X \\ 
+$\alpha_t$ & \texttt{slope} & np.array(N) &  X   & X & X & X \\ 
+$\beta_t$ & \texttt{beta} & np.array(N, $n_\mathrm{reg}$) &  X   & X &  & X \\ 
+$u_{12,t} + u_{6,t}$ & \texttt{seasonal} & np.array(N) &  X  & X & X & X \\ 
+$q_t$ & \texttt{ar} & np.array(N) &  X  & X & X & X \\ 
+$\sigma_\mathrm{trend}$ & \texttt{sigma\_trend} & float &  X   & X & X & X \\ 
+$\sigma_\mathrm{seas}$ & \texttt{sigma\_seas} & float &  X   & X & X & X \\ 
+$\sigma_\mathrm{AR}$ & \texttt{sigma\_AR} & float &  X   & X & X & X \\ 
+$\boldsymbol{\sigma}_{z}$ & \texttt{sigma\_reg} & np.array($n_\mathrm{reg}$) &    &  &  & X \\ 
+$\rho_1$ & \texttt{rhoAR1} & float &  X   & X & X & X \\ 
+$\rho_2$ & \texttt{rhoAR2} & float &   & X &  &  \\ 
+ \hline
+\end{tabular}
+\end{center}
+\end{table}
+%\bibliographystyle{mn2e_williams}
+\bibliographystyle{unsrtnat}
+\bibliography{dlm}
+
+\end{document}

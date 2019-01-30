@@ -24,6 +24,8 @@ Once you have downloaded the code from this repository and installed the depende
 
 This pre-compiles all of the models on your machine, saves them in `models/`, and then you're ready to start DLMing!
 
+Note: conda seems to be more stable for getting pystan to work than pip - if you installed with pip and compiling the stan models throws errors, try again with with conda.
+
 ### Usage
 
 **Functionality**

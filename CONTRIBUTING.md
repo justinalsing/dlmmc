@@ -40,3 +40,8 @@ pickle.dump(my_new_model, f)
 f.close()
 ```
 
+Finally, you should incude a short description of your extended model into the document `model_descriptions.pdf`. This can be done by modifying `model_descriptions.tex` (and `model_descriptions.bib`) and re-compiling the tex file to update the pdf.
+
+## Want a new model but need assistance?
+
+If you desperately want your new model implemented, but are uncomfortable coding in stan, please contact me either directly at justin.alsing@fysik.su.se or via the issues channel associated with this Git repo. I'll be happy to help.

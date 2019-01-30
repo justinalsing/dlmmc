@@ -8,7 +8,7 @@ Note: some basic working knowledge of python and jupyter notebooks is required t
 
 ### Installation
 
-The code is python3 and has the following dependencies, which can be installed using either conda install or pip install:
+The code is python3 and has the following dependencies, which can be installed using either `conda install` or `pip install`:
 
 [numpy](http://www.numpy.org)<br/>
 [scipy](https://www.scipy.org)<br/>

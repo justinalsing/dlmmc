@@ -18,10 +18,11 @@ A more detailed work-flow for implementing a new model is as follows:
 6. **Update the `generated_quantities{}` block** to extract the new bits of your model from the state vector. At the end of this block of code (the last loop in each stan model code), there is a loop which takes the state vector **x** and extracts from it the various components of your model (trend, seasonal cycle, etc). This is useful to make post-processing the output easier. In your new model, you should add lines of code here (following what was done for the other components of the state vector) to extract the various components of your model from **x**.
 7. **Compile and run the model.** Once you think you're done coding your new model, you'll need to compile it. This can be done with the following python code:
 
-`import pystan`
-`from models.stan_dlm_models import *`
+```import pystan
+from models.stan_dlm_models import *
 
-`my_new_model = pystan.StanModel(model_code=my_new_model)`
+my_new_model = pystan.StanModel(model_code=my_new_model)
+```
 
 If it compiles OK, go ahead and run it on your data own (following `dlm_tutorial.ipynb`).
 
@@ -29,12 +30,13 @@ If it compiles OK, go ahead and run it on your data own (following `dlm_tutorial
 
 When you are happy that your new model is working and is stable, you should add the following (example) code to `compile_stan_models.py` so that users can automatically compile your model when they download/pull the code:
 
-`import pystan`
-`import pickle`
-`from models.stan_dlm_models import *`
+```import pystan
+import pickle
+from models.stan_dlm_models import *
 
-`my_new_model = pystan.StanModel(model_code=my_new_model)`
-`f = open('models/my_new_model.pkl', 'wb')`
-`pickle.dump(my_new_model, f)`
-`f.close()`
+my_new_model = pystan.StanModel(model_code=my_new_model)
+f = open('models/my_new_model.pkl', 'wb')
+pickle.dump(my_new_model, f)
+f.close()
+```
 

@@ -8,7 +8,7 @@ Note: some basic working knowledge of python and jupyter notebooks is required t
 
 ### Installation
 
-The code is python3 and has the following dependencies, which can be installed using either `conda install` (reccommended) or `pip install`:
+The code is python3 and has the following dependencies, which can be installed using `conda install`:
 
 [numpy](http://www.numpy.org)<br/>
 [scipy](https://www.scipy.org)<br/>
@@ -16,7 +16,7 @@ The code is python3 and has the following dependencies, which can be installed u
 [netCDF4](https://pypi.org/project/netcdf/)<br/>
 [pystan](https://pystan.readthedocs.io/en/latest/)<br/>
 
-If you want to run multiple DLMs in parallel with MPI, you will also need [openmpi](https://www.open-mpi.org) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/install.html) (again easily done with conda or pip).
+If you want to run multiple DLMs in parallel with MPI, you will also need [openmpi](https://www.open-mpi.org) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/install.html) (again easily done with conda).
 
 Once you have downloaded the code from this repository and installed the dependencies, run the following script (make sure in python3):
 
@@ -24,7 +24,7 @@ Once you have downloaded the code from this repository and installed the depende
 
 This pre-compiles all of the models on your machine, saves them in `models/`, and then you're ready to start DLMing!
 
-Note: conda seems to be more stable for getting pystan to work than pip - if you installed with pip and compiling the stan models throws errors, try again with with conda.
+Platforms: note that the code has been successfully installed and tested on Mac, Linux and Windows. Note that while there are some limitations to the functionality of [pystan](https://pystan.readthedocs.io/en/latest/) on Windows, these do not restrict the use of the dlmmc package for Windows users.
 
 ### Usage
 
@@ -42,7 +42,7 @@ I recommend you run this with a very small number of samples first (eg iter=3, w
 
 **Model descriptions**
 
-Mathematical descriptions of each of the DLM models implemented in this package can be found in the file `models/model_descriptions.pdf`. This file contains a concise description of the parameters of each model, their physical meanings, and how to refer to them in the code: make sure you have read and understand the model description before running a new model!
+Mathematical descriptions of each of the DLM models implemented in this package can be found in the file `models/model_descriptions/model_descriptions.pdf`. This file contains a concise description of the parameters of each model, their physical meanings, and how to refer to them in the code: make sure you have read and understand the model description before running a new model!
 
 ### Citing this code
 

@@ -181,10 +181,10 @@ The user can control the widths of all priors (with exception of the AR correlat
 In this package we include implementations of a number of DLM models that all inherit from the general DLM model described above, but with certain specific specifications (eg., with certain features turned on or off). We describe the specs of each implemented model below:
 %
 \subsubsection*{dlm\_vanilla\_AR1}
-This is the go to model for most applications and has the following simplifications: $\sigma_{z,i} = 0$ for all regressors (so the regressor amplitudes are assumed to be constant in time), and as the name suggest an AR1 auto-regressive process. This model was used for analysis of stratospheric ozone data in \citet{ball2017} and \citet{ball2018}.
+This is the go to model for most applications and has the following simplifications: $\sigma_{z,i} = 0$ for all regressors (so the regressor amplitudes are assumed to be constant in time), and as the name suggest an AR1 auto-regressive process. This model was used for analysis of stratospheric ozone data in \citet{ball2017}.
 %
 \subsubsection*{dlm\_vanilla\_AR2}
-As above (constant in time regressor amplitudes) but with an AR2 process.
+As above (constant in time regressor amplitudes) but with an AR2 process. This model was used for analysis of stratospheric ozone data in \citet{ball2018}.
 %
 \subsubsection*{dlm\_noregs\_AR1}
 This model has no regressors and is comprised only of a trend, seasonal cycle and auto-regressive (AR1) process.

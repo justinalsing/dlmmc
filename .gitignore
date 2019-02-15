@@ -1,0 +1,6 @@
+-r __pycache__
+-r models/__pycache__
+-r utils/__pycache__
+-r .ipynb_checkpoints
+-r *.DS_store
+

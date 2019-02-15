@@ -24,7 +24,7 @@ Once you have downloaded the code from this repository and installed the depende
 
 This pre-compiles all of the models on your machine, saves them in `models/`, and then you're ready to start DLMing!
 
-Platforms: note that the code has been successfully installed and tested on Mac, Linux and Windows. Note that while there are some limitations to the functionality of [pystan](https://pystan.readthedocs.io/en/latest/) on Windows, these do not restrict the use of the dlmmc package for Windows users.
+Platforms: note that the code has been successfully installed and tested on Mac, Linux and Windows. Note that there are some limitations to the functionality of [pystan](https://pystan.readthedocs.io/en/latest/) on Windows, but these do not restrict the use of the dlmmc package for Windows users.
 
 ### Usage
 

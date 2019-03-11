@@ -30,7 +30,7 @@ Platforms: note that the code has been successfully installed and tested on Mac,
 
 **Functionality**
 
-A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses stratospheric ozone time-series data as a case study. The notebook takes you step-by-step through the complete functionality of the code: loading in your own data, running the DLM model, and processing and plotting the results. The tutorial also serves as a test that the install was successful and the compiled models run smoothly. 
+A detailed annotated tutorial walk-through of how to use the code is given in the jupyter notebook `dlm_tutorial.ipynb` -- this tutorial analyses stratospheric ozone time-series data as a case study. The notebook takes you step-by-step through the complete functionality of the code: loading in your own data, running the DLM model, and processing and plotting the results. The tutorial also serves as a test that the install was successful and the compiled models run smoothly (for a more comprehensive test suite see below).
 
 **Running in parallel with MPI**
 
@@ -43,6 +43,10 @@ I recommend you run this with a very small number of samples first (eg iter=3, w
 **Model descriptions**
 
 Mathematical descriptions of each of the DLM models implemented in this package can be found in the file `models/model_descriptions/model_descriptions.pdf`. This file contains a concise description of the parameters of each model, their physical meanings, and how to refer to them in the code: make sure you have read and understand the model description before running a new model!
+
+**Test suite and code validation**
+
+A more comprehensive test suite is provided in `dlm_validation_tests.ipynb`. In this notebook we run through the suite of DLM models in dlmmc, generating mock data and running the DLM on those mock data, for each model in turn. This acts as both a test suite to check the install has worked robustly (ie., all of the models run to completion without error), and aslo serves as a set of validation tests (demonstrating that the input parameters are recovered correctly, within posterior uncertainties, for each model).
 
 ### Citing this code
 

@@ -36,7 +36,7 @@ pickle.dump(my_new_model, f)
 f.close()
 ```
 
-Finally, you should incude a short description of your extended model into the document `model_descriptions.pdf`. This can be done by modifying `model_descriptions.tex` (and `model_descriptions.bib`) and re-compiling the tex file to update the pdf.
+Finally, you should incude a short description of your extended model into the document `model_descriptions.pdf`. This can be done by modifying `model_descriptions.tex` (and `model_descriptions.bib`) and re-compiling the tex file to update the pdf. You should also include a validation test in the test suite `dlm_validation_tests.ipynb` (following what was done for the other models there; generate a draw from your model as mock data, run your model on the mock data, plot the recovery of the state-vector and hyper-parameters).
 
 ## Want a new model but need assistance?
 

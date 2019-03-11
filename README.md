@@ -46,7 +46,9 @@ Mathematical descriptions of each of the DLM models implemented in this package 
 
 **Test suite and code validation**
 
-A more comprehensive test suite is provided in `dlm_validation_tests.ipynb`. In this notebook we run through the suite of DLM models in dlmmc, generating mock data and running the DLM on those mock data, for each model in turn. This acts as both a test suite to check the install has worked robustly (ie., all of the models run to completion without error), and aslo serves as a set of validation tests (demonstrating that the input parameters are recovered correctly, within posterior uncertainties, for each model).
+A more comprehensive test suite is provided in `dlm_validation_tests.ipynb`. In this notebook we run through the suite of DLM models in dlmmc, generating mock data and running the DLM on those mock data, for each model in turn. This acts as both a test suite to check the install has worked robustly (ie., all of the models run to completion without error), and also serves as a set of validation tests demonstrating that the input parameters are recovered correctly, within posterior uncertainties, for each model.
+
+For testing that your MPI set-up works, run the `dlm_lat_alt_mpi_run.py` script with iter=3, warmup=1 as described above and check that it completes without error. (Note: this will run very short MCMC chains (only 3 samples!) so stan will throw lots of warnings about lack of convergence, which you can ignore for this test!)
 
 ### Citing this code
 

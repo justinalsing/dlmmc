@@ -165,16 +165,16 @@ where the ARn parameters $\rho_1$, $\rho_2,\dots,\,\rho_n$ and $\sigma_\mathrm{A
 \section{Model parameters and priors}
 %
 In order to perform Bayesian inference under the DLM model described above, we must define priors over the hyper-parameters and the
-initial state $\mathbf{x}_0$. We choose the following priors as standard in the code:
+initial state $\mathbf{x}_0$. Standard priors are implemented as follows. For hyper-prameters $\sigma_\mathrm{trend}$, $\sigma_\mathrm{seas}$, $\boldsymbol\sigma_\mathrm{z}$ and $\sigma_\mathrm{AR}$ we use half-normal (positive) priors,
 \begin{align}
 &\sigma_\mathrm{trend} \sim \mathrm{HalfNormal}(0, \sigma_\mathrm{trend}^{prior}) \nonumber \\
 &\sigma_\mathrm{seas} \sim \mathrm{HalfNormal}(0, \sigma_\mathrm{seas}^{prior}) \nonumber \\
 &\boldsymbol{\sigma}_\mathrm{z} \sim \mathrm{HalfNormal}(\mathbf{0}, \boldsymbol{\sigma}_\mathrm{z}^{prior}) \nonumber \\
 &\sigma_\mathrm{AR} \sim \mathrm{HalfNormal}(0, \sigma_\mathrm{AR}^{prior}) \nonumber \\
-&\rho_i  \sim \mathrm{Uniform}(-1, 1) \nonumber \\
-&\mathbf{x}_0 \sim \mathrm{Normal}(\mathbf{0}, \mathbf{I}\times S).
 \end{align}
-The user can control the widths of all priors (with exception of the AR correlations $\rho_i$), but default values are taken to be: $\sigma_\mathrm{trend}^{prior} = 10^{-4}$, $\sigma_\mathrm{seas}^{prior} = 10^{-2}$, $\boldsymbol{\sigma}_\mathrm{z}^{prior} = 10^{-4}\mathbf{I}$, $S=10$.
+where the user can control the prior widths $\sigma_\mathrm{trend}^{prior}$, $\sigma_\mathrm{seas}^{prior}$, $\boldsymbol{\sigma}_\mathrm{z}^{prior}$, and $\sigma_\mathrm{AR}^{prior}$. For the initial states $\{x^i_0\}$ for all components apart from the AR-process, we choose a zero mean Gaussian prior with standard deviation $S$, specified by the user.
+
+The prior on the initial state of the AR-process $\mathbf{x}_0^\mathrm{AR}$ is zero-mean Gaussian, with covariance equal to the stationary covariance $\mathbf{C}$ of the AR-process (which is dependent on the AR parameters $\sigma_\mathrm{AR}$ and $\{\rho_i\}$). The prior on the AR correlation coefficients $\{\rho_i\}$ must be chosen so that the stationary covariance $\mathbf{C}$ is positive definite: for the AR1 process we take $\rho_1\sim \mathrm{Uniform}(0, 1)$, for the AR2 process we take $\rho_1\sim \mathrm{Uniform}(0, 0.5)$ and $\rho_2\sim \mathrm{Uniform}(0, 1-\rho_1)$.
 %
 \section{specific model descriptions}
 %

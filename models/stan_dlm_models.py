@@ -253,7 +253,7 @@ generated quantities {
         ar[t] = x[t][nx]*data_range;
     }
     for(i in 1:nreg){
-        beta[i] = x[1][5+i]*data_range;
+        beta[i] = x[1][6+i]*data_range;
     }
 }
 
@@ -265,7 +265,6 @@ dlm_vanilla_ar2 = """
 data {
     int N; // number of time steps
     int nreg; // number of regressors
-    int nx; // length of state vector
     int sampling; // sampling of data: daily = 0, monthly = 1, annual = 2
     vector[N] time_series; // n-composites vectors of N-time-steps -- the data
     vector[N] stddev; // corresponding std deviation for each data point
@@ -283,6 +282,9 @@ transformed data {
     real data_range = max(time_series) - min(time_series);
     vector[N] d = (time_series - data_mean)/data_range;
     vector[N] s = stddev/data_range;
+    
+    // Set value of nx
+    int nx = nreg+8;
     
     // Declare F-vector (observation projection vector)
     vector[nx] F[N+1];
@@ -323,8 +325,8 @@ parameters {
     real<lower=0> sigma_trend;
     real<lower=0> sigma_seas;
     real<lower=0> sigma_AR;
-    real<lower=0, upper=1> rhoAR1;
-    real<lower=0, upper=1> rhoAR2;
+    real<lower=0, upper=0.5> rhoAR1;
+    real<lower=0, upper=1.0> rhoAR2;
 }
 
 transformed parameters{
@@ -397,20 +399,21 @@ transformed parameters{
     W[5,5] = sigma_seas^2;
     W[6,6] = sigma_seas^2;
     for(i in 1:nreg){
-        W[6+i,6+i] = 1e-10;
+        W[6+i,6+i] = 1e-20;
     }
-    W[nx,nx] = sigma_AR^2;
+    W[nx-1,nx-1] = sigma_AR^2;
+    W[nx,nx] = 1e-20;
     
     // Assign C matrix
     
     // Prior covariance of regression coefficients (and seasonal cycle and trend amplitudes)
-    for(i in 1:(nx-1)){
+    for(i in 1:nx){
         C[i,i] = S;
     }
     
     // Prior (stationary) covariance of the AR1 process
-    C[nx, nx] = sigma_AR^2/(1-(rhoAR1^2 + rhoAR2^2) - 2*rhoAR2*rhoAR1^2);
-    C[nx-1, nx-1] = sigma_AR^2/(1-(rhoAR1^2 + rhoAR2^2) - 2*rhoAR2*rhoAR1^2);
+    C[nx, nx] = sigma_AR^2/(1-rhoAR1^2 - rhoAR2^2 - (2*rhoAR2*rhoAR1^2)/(1-rhoAR2));
+    C[nx-1, nx-1] = sigma_AR^2/(1-rhoAR1^2 - rhoAR2^2 - (2*rhoAR2*rhoAR1^2)/(1-rhoAR2));
     C[nx, nx-1] = C[nx, nx]*rhoAR1/(1-rhoAR2);
     C[nx-1, nx] = C[nx, nx]*rhoAR1/(1-rhoAR2);
 
@@ -437,8 +440,8 @@ model {
     sigma_trend ~ normal(0, sigma_trend_prior);
     sigma_seas ~ normal(0, sigma_seas_prior);
     sigma_AR ~ normal(0, sigma_AR_prior);
-    rhoAR1 ~ uniform(0, 1);
-    rhoAR2 ~ uniform(0, sqrt(rhoAR1^4+1-rhoAR1^2)-rhoAR1^2);
+    rhoAR1 ~ uniform(0, 0.5);
+    rhoAR2 ~ uniform(0, 1-rhoAR1);
 
     // Construct target density
     for(t in 2:N+1){
@@ -515,7 +518,7 @@ generated quantities {
         ar[t] = x[t][nx]*data_range;
     }
     for(i in 1:nreg){
-        beta[i] = x[1][5+i]*data_range;
+        beta[i] = x[1][6+i]*data_range;
     }
 }
 
@@ -715,7 +718,7 @@ generated quantities {
     vector[N] seasonal;
     vector[4] seasonal_components[N];
     vector[N] ar;
-    vector[nreg] beta;
+    vector[nreg] beta[N];
     vector[nx] x[N];
     vector[nx] x_realization[N+1];
     vector[nx] x_ubar[N+1];
@@ -781,7 +784,9 @@ generated quantities {
         ar[t] = x[t][nx]*data_range;
     }
     for(i in 1:nreg){
-        beta[i] = x[1][5+i]*data_range;
+        for(t in 1:N){
+            beta[t][i] = x[t][6+i]*data_range;
+        }
     }
 }
 

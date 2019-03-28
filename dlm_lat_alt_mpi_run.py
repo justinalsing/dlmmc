@@ -43,12 +43,12 @@ N = len(T)
 # Import the regressors and project them onto the time grid corresponding to the imported data
 
 # ENSO
-regressor_data = np.loadtxt('regressors/enso_mei_1950_201802.txt')
+regressor_data = np.loadtxt('regressors/ENSO_MEI_1950_201802.txt')
 Y = interpolate.InterpolatedUnivariateSpline(regressor_data[:,0], regressor_data[:,1])
 enso = Y(T)
 
 # SOLAR
-regressor_data = np.loadtxt('regressors/flux_F30_monthly_195111_201803_absolute.txt')
+regressor_data = np.loadtxt('regressors/Flux_F30_monthly_195111_201803_absolute.txt')
 Y = interpolate.InterpolatedUnivariateSpline(regressor_data[:,0], regressor_data[:,1])
 solar = Y(T)
 

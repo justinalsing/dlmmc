@@ -20,7 +20,7 @@ Once you have downloaded the code from this repository and installed the depende
 
 This compiles all of the models on your machine, saves them in `models/`, and then you're ready to start DLMing! Jump straight into the jupyter notebook tutorial `dlm_tutorial.ipynb` (see below), or if you prefer you can run a test suite to check that the install worked and all models run smoothly by executing:
 
-`jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=10000 dlm_validation_tests.ipynb`
+`jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=100000 dlm_validation_tests.ipynb`
 
 Note: this will take some minutes to run through. 
 

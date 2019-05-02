@@ -16,12 +16,16 @@ The code is python3 and has the following dependencies: [numpy](http://www.numpy
 
 The most painless way to get set up is using the [Anaconda python distribution](https://www.anaconda.com/distribution/) (recommended), which comes with most of the dependencies as default. The remaining dependencies can then be installed using `conda install` and the DLM models compiled by running:
 
-`conda install pystan netCDF4`</br>
-`python3 compile_stan_models.py`
+```
+conda install pystan netCDF4
+python3 compile_stan_models.py
+```
 
 This second line compiles all of the DLM models on your machine, saves them in `models/`, and then you're ready to start DLMing! Jump straight into the jupyter notebook tutorial `dlm_tutorial.ipynb` (see below), or if you prefer you can run a test suite to check that the install worked and all models run smoothly by executing (this will take some minutes to run through):
 
-`jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=100000 dlm_validation_tests.ipynb`
+```
+jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=100000 dlm_validation_tests.ipynb
+```
 
 Finally, if you want to see what a successful installation looks like, see `INSTALL.md`.
 
@@ -29,8 +33,10 @@ Finally, if you want to see what a successful installation looks like, see `INST
 
 Anaconda is not a _requirement_ for installing dlmmc, but is recommended because it works robustly with pystan. If you would rather use a different python distribution and `pip3` for installing dependencies, you are welcome to (at your own risk); see the [pystan readthedocs](https://pystan.readthedocs.io/en/latest/installation_beginner.html) for advice on installing pystan using `pip3` if you run into problems. Note that if you do not use Anaconda you will also have to install the other dependencies listed above, ie., 
 
-`pip3 install numpy scipy ipython[all] jupyter matplotlib netCDF4 pystan`</br>
-`python3 compile_stan_models.py`
+```
+pip3 install numpy scipy ipython[all] jupyter matplotlib netCDF4 pystan
+python3 compile_stan_models.py
+```
 
 **Platforms** 
 

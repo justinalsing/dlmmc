@@ -23,6 +23,8 @@ This second line compiles all of the DLM models on your machine, saves them in `
 
 `jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=100000 dlm_validation_tests.ipynb`
 
+Finally, if you want to see what a successful installation looks like, see `INSTALL.md`.
+
 **Installation with pip (at your own risk)**
 
 Anaconda is not a _requirement_ for installing dlmmc, but is recommended because it works robustly with pystan. If you would rather use a different python distribution and `pip3` for installing dependencies, you are welcome to (at your own risk); see the [pystan readthedocs](https://pystan.readthedocs.io/en/latest/installation_beginner.html) for advice on installing pystan using `pip3` if you run into problems. Note that if you do not use Anaconda you will also have to install the other dependencies listed above, ie., 

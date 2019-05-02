@@ -30,13 +30,7 @@ A detailed annotated tutorial walk-through of how to use the code is given in th
 
 **Running in parallel with MPI**
 
-It's often necessary to perform regression of a large number time-series (eg., over a grid of observations at different altitudes/latitudes/longitudes) and is advantageous to be able to run these in parallel. If you want to run multiple DLMs in parallel with MPI, you will need to install [openmpi](https://www.open-mpi.org) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/install.html) (again easily done with `conda install`).
-
-The python script `dlm_lat_alt_mpi_run.py` is a template for how to run the DLM code over a grid of time-series at different latitudes/altitudes in parallel using MPI, and save the results to a single netCDF file. This script has the additional dependency [tqdm](https://tqdm.github.io) if you want it to work with a progress bar. Provided you have MPI working, you can run this script with the following command (using eg. 4 hyperthreaded processes):
-
-`mpirun --use-hwthread-cpus -np 4 python3 dlm_lat_alt_mpi_run.py`
-
-I recommend you run this with a very small number of samples first (eg set `iter=3` and `warmup=1` at the top of the python script) to check it runs through, before embarking on a long run.
+It's often necessary to perform regression of a large number time-series (eg., over a grid of observations at different altitudes/latitudes/longitudes) and is advantageous to be able to run these in parallel. Although not a central part of this package, I provide a template example for doing large MPI runs in `dlm_lat_alt_mpi_run.py` - see `MPI-README.md` for a description of getting set up with MPI runs.
 
 **Model descriptions**
 
@@ -45,8 +39,6 @@ Mathematical descriptions of each of the DLM models implemented in this package 
 **Test suite and code validation**
 
 A more comprehensive test suite is provided in `dlm_validation_tests.ipynb`. In this notebook we run through the suite of DLM models in dlmmc, generating mock data and running the DLM on those mock data, for each model in turn. This acts as both a test suite to check the install has worked robustly (ie., all of the models run to completion without error), and also serves as a set of validation tests demonstrating that the input parameters are recovered correctly, within posterior uncertainties, for each model.
-
-For testing that your MPI set-up works, run the `dlm_lat_alt_mpi_run.py` script with iter=3, warmup=1 as described above and check that it completes without error. (Note: this will run very short MCMC chains (only 3 samples!) so stan will throw lots of warnings about lack of convergence, which you can ignore for this test!)
 
 ### Citing this code
 

@@ -8,19 +8,18 @@ Note: some basic working knowledge of python and jupyter notebooks is required t
 
 ### Installation
 
+Once you have downloaded the code from this repository you're ready to install dependencies and get set-up.
+
 The code is python3 and has the following dependencies: [numpy](http://www.numpy.org), [scipy](https://www.scipy.org), [matplotlib](https://matplotlib.org), [jupyter](https://jupyter.org/install), [ipython](https://ipython.org/install.html), [netCDF4](https://pypi.org/project/netcdf/), [pystan](https://pystan.readthedocs.io/en/latest/).
 
 **Installation with conda (recommended)**
 
-The most painless way to get set up is using the [Anaconda python distribution](https://www.anaconda.com/distribution/) (recommended), which comes with most of the dependencies as default. The remaining dependencies can then be installed using `conda install`:
+The most painless way to get set up is using the [Anaconda python distribution](https://www.anaconda.com/distribution/) (recommended), which comes with most of the dependencies as default. The remaining dependencies can then be installed using `conda install` and the DLM models compiled by running:
 
-`conda install pystan netCDF4`
-
-Once you have downloaded the code from this repository and installed the dependencies, run the following script:
-
+`conda install pystan netCDF4`</br>
 `python3 compile_stan_models.py`
 
-This compiles all of the models on your machine, saves them in `models/`, and then you're ready to start DLMing! Jump straight into the jupyter notebook tutorial `dlm_tutorial.ipynb` (see below), or if you prefer you can run a test suite to check that the install worked and all models run smoothly by executing (this will take some minutes to run through):
+This second line compiles all of the DLM models on your machine, saves them in `models/`, and then you're ready to start DLMing! Jump straight into the jupyter notebook tutorial `dlm_tutorial.ipynb` (see below), or if you prefer you can run a test suite to check that the install worked and all models run smoothly by executing (this will take some minutes to run through):
 
 `jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=100000 dlm_validation_tests.ipynb`
 

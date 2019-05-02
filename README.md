@@ -8,23 +8,19 @@ Note: some basic working knowledge of python and jupyter notebooks is required t
 
 ### Installation
 
-The code is python3 and has the following dependencies, which can be installed using `conda install`:
+The code is python3 and has the following dependencies: [numpy](http://www.numpy.org), [scipy](https://www.scipy.org), [matplotlib](https://matplotlib.org), [jupyter](https://jupyter.org/install), [ipython](https://ipython.org/install.html), [netCDF4](https://pypi.org/project/netcdf/), [pystan](https://pystan.readthedocs.io/en/latest/).
 
-[numpy](http://www.numpy.org)<br/>
-[scipy](https://www.scipy.org)<br/>
-[matplotlib](https://matplotlib.org)<br/>
-[netCDF4](https://pypi.org/project/netcdf/)<br/>
-[pystan](https://pystan.readthedocs.io/en/latest/)<br/>
+The most painless way to get set up is using the [Anaconda python distribution](https://www.anaconda.com/distribution/) (recommended), which comes with most of the dependencies as default. The remaining dependencies can then be installed using `conda install`:
 
-If you want to run multiple DLMs in parallel with MPI, you will also need [openmpi](https://www.open-mpi.org) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/install.html) (again easily done with conda).
+`conda install pystan netCDF4`
 
-Once you have downloaded the code from this repository and installed the dependencies, run the following script (make sure in python3):
+Once you have downloaded the code from this repository and installed the dependencies, run the following script:
 
-`python compile_stan_models.py`
+`python3 compile_stan_models.py`
 
 This pre-compiles all of the models on your machine, saves them in `models/`, and then you're ready to start DLMing!
 
-Platforms: note that the code has been successfully installed and tested on Mac, Linux and Windows. Note that there are some limitations to the functionality of [pystan on Windows](https://pystan.readthedocs.io/en/latest/windows.html), but these do not restrict the use of the dlmmc package for Windows users.
+Platforms: note that the code has been successfully installed on Mac, Linux and Windows. Note that there are some limitations to the functionality of [pystan on Windows](https://pystan.readthedocs.io/en/latest/windows.html), but these do not restrict the use of the dlmmc package for Windows users.
 
 ### Usage
 
@@ -34,11 +30,13 @@ A detailed annotated tutorial walk-through of how to use the code is given in th
 
 **Running in parallel with MPI**
 
-It's often necessary to perform regression of a large number time-series (eg., over a grid of observations at different altitudes/latitudes/longitudes) and is advantageous to be able to run these in parallel. The python script `dlm_lat_alt_mpi_run.py` is a template for how to run the DLM code over a grid of time-series at different latitudes/altitudes in parallel using MPI, and save the results to a single netCDF file. This script has the additional dependency [tqdm](https://tqdm.github.io) if you want it to work with a progress bar. Provided you have MPI working, you can run this script with the following command (using eg. 4 hyperthreaded processes, again make sure you run with python3):
+It's often necessary to perform regression of a large number time-series (eg., over a grid of observations at different altitudes/latitudes/longitudes) and is advantageous to be able to run these in parallel. If you want to run multiple DLMs in parallel with MPI, you will need to install [openmpi](https://www.open-mpi.org) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/install.html) (again easily done with `conda install`).
 
-`mpirun --use-hwthread-cpus -np 4 python dlm_lat_alt_mpi_run.py`
+The python script `dlm_lat_alt_mpi_run.py` is a template for how to run the DLM code over a grid of time-series at different latitudes/altitudes in parallel using MPI, and save the results to a single netCDF file. This script has the additional dependency [tqdm](https://tqdm.github.io) if you want it to work with a progress bar. Provided you have MPI working, you can run this script with the following command (using eg. 4 hyperthreaded processes):
 
-I recommend you run this with a very small number of samples first (eg iter=3, warmup=1) to check it runs through, before embarking on a long run.
+`mpirun --use-hwthread-cpus -np 4 python3 dlm_lat_alt_mpi_run.py`
+
+I recommend you run this with a very small number of samples first (eg set `iter=3` and `warmup=1` at the top of the python script) to check it runs through, before embarking on a long run.
 
 **Model descriptions**
 

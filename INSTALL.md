@@ -81,4 +81,4 @@ Iteration: 3000 / 3000 [100%]  (Sampling)
 [NbConvertApp] Writing 687553 bytes to dlm_tutorial.nbconvert.ipynb
 ```
 
-The notebook completed without error! (Note: the sporadic warning from pystan are not a problem)
+The notebook completed without error! You're now ready to start using the code.

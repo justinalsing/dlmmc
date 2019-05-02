@@ -24,6 +24,8 @@ INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_c3ff00cf2253f51bed2b150f
 INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_b9cb9e0eb2389c8a6e3078345a6a1dd4 NOW.
 ```
 
+Note that you might get some additional deep-copy warnings from pystan during compilation - these are not a problem (so long as compliation completes without errors).
+
 Finally let's execute the `dlm_tutorial.ipynb` notebook to check everything worked correctly:
 ```
 justinalsing$ jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=100000 dlm_tutorial.ipynb

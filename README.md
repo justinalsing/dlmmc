@@ -26,7 +26,10 @@ This compiles all of the models on your machine, saves them in `models/`, and th
 
 **Installation with pip (at your own risk)**
 
-Anaconda is not a _requirement_ for installing dlmmc, but is recommended because it works robustly with pystan. If you would rather use a different python distribution and `pip3` for installing dependencies, you are welcome to (at your own risk); see the [pystan readthedocs](https://pystan.readthedocs.io/en/latest/installation_beginner.html) for advice on installing pystan using `pip3` if you run into problems. Note that if you do not use Anaconda you will also have to install the other dependencies listed above, ie., `pip3 install numpy scipy ipython[all] jupyter matplotlib netCDF4 pystan`.
+Anaconda is not a _requirement_ for installing dlmmc, but is recommended because it works robustly with pystan. If you would rather use a different python distribution and `pip3` for installing dependencies, you are welcome to (at your own risk); see the [pystan readthedocs](https://pystan.readthedocs.io/en/latest/installation_beginner.html) for advice on installing pystan using `pip3` if you run into problems. Note that if you do not use Anaconda you will also have to install the other dependencies listed above, ie., 
+
+`pip3 install numpy scipy ipython[all] jupyter matplotlib netCDF4 pystan`
+`python3 compile_stan_models.py`
 
 **Platforms** 
 

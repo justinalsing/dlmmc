@@ -22,9 +22,11 @@ This compiles all of the models on your machine, saves them in `models/`, and th
 
 `jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=100000 dlm_validation_tests.ipynb`
 
-Note: this will take some minutes to run through. 
+Note: this will take some minutes to run through.
 
-Platforms: note that the code has been successfully installed on Mac, Linux and Windows. Note that there are some limitations to the functionality of [pystan on Windows](https://pystan.readthedocs.io/en/latest/windows.html), but these do not restrict the use of the dlmmc package for Windows users.
+Anaconda is not a _requirement_ for installing dlmmc, but is recommended because it works more consistently with pystan. If you would rather use a different python distribution and `pip` for installing dependencies, you are welcome to (at your own risk); see the [pystan readthedocs](https://pystan.readthedocs.io/en/latest/installation_beginner.html) for advice on installing pystan using `pip`. 
+
+Platforms: dlmmc has been successfully installed on Mac, Linux and Windows. Note that there are some limitations to the functionality of [pystan on Windows](https://pystan.readthedocs.io/en/latest/windows.html), but these do not restrict the use of the dlmmc package for Windows users.
 
 ### Usage
 

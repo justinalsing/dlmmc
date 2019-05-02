@@ -18,7 +18,11 @@ Once you have downloaded the code from this repository and installed the depende
 
 `python3 compile_stan_models.py`
 
-This pre-compiles all of the models on your machine, saves them in `models/`, and then you're ready to start DLMing!
+This compiles all of the models on your machine, saves them in `models/`, and then you're ready to start DLMing! Jump straight into the jupyter notebook tutorial `dlm_tutorial.ipynb` (see below), or if you prefer you can run a test suite to check that the install worked and all models run smoothly by executing:
+
+`jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=100000 dlm_validation_tests.ipynb`
+
+Note: this will take some minutes to run through. 
 
 Platforms: note that the code has been successfully installed on Mac, Linux and Windows. Note that there are some limitations to the functionality of [pystan on Windows](https://pystan.readthedocs.io/en/latest/windows.html), but these do not restrict the use of the dlmmc package for Windows users.
 
@@ -38,7 +42,7 @@ Mathematical descriptions of each of the DLM models implemented in this package 
 
 **Test suite and code validation**
 
-A more comprehensive test suite is provided in `dlm_validation_tests.ipynb`. In this notebook we run through the suite of DLM models in dlmmc, generating mock data and running the DLM on those mock data, for each model in turn. This acts as both a test suite to check the install has worked robustly (ie., all of the models run to completion without error), and also serves as a set of validation tests demonstrating that the input parameters are recovered correctly, within posterior uncertainties, for each model.
+A more comprehensive test suite is provided in `dlm_validation_tests.ipynb`. In this notebook I run through the suite of DLM models in dlmmc, generating mock data and running the DLM on those mock data, for each model in turn. This acts as both a test suite to check the install has worked robustly (ie., all of the models run to completion without error), and also serves as a set of validation tests demonstrating that the input parameters are recovered correctly, within posterior uncertainties, for each model.
 
 ### Citing this code
 

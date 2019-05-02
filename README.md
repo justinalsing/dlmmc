@@ -10,6 +10,8 @@ Note: some basic working knowledge of python and jupyter notebooks is required t
 
 The code is python3 and has the following dependencies: [numpy](http://www.numpy.org), [scipy](https://www.scipy.org), [matplotlib](https://matplotlib.org), [jupyter](https://jupyter.org/install), [ipython](https://ipython.org/install.html), [netCDF4](https://pypi.org/project/netcdf/), [pystan](https://pystan.readthedocs.io/en/latest/).
 
+**Installation with conda (recommended)**
+
 The most painless way to get set up is using the [Anaconda python distribution](https://www.anaconda.com/distribution/) (recommended), which comes with most of the dependencies as default. The remaining dependencies can then be installed using `conda install`:
 
 `conda install pystan netCDF4`
@@ -22,9 +24,13 @@ This compiles all of the models on your machine, saves them in `models/`, and th
 
 `jupyter-nbconvert --to notebook --execute --ExecutePreprocessor.timeout=100000 dlm_validation_tests.ipynb`
 
-Note: Anaconda is not a _requirement_ for installing dlmmc, but is recommended because it works robustly with pystan. If you would rather use a different python distribution and `pip3` for installing dependencies, you are welcome to (at your own risk); see the [pystan readthedocs](https://pystan.readthedocs.io/en/latest/installation_beginner.html) for advice on installing pystan using `pip3` if you run into problems. 
+**Installation with pip (at your own risk)**
 
-Platforms: dlmmc has been successfully installed on Mac, Linux and Windows. Note that there are some limitations to the functionality of [pystan on Windows](https://pystan.readthedocs.io/en/latest/windows.html), but these do not restrict the use of the dlmmc package for Windows users.
+Anaconda is not a _requirement_ for installing dlmmc, but is recommended because it works robustly with pystan. If you would rather use a different python distribution and `pip3` for installing dependencies, you are welcome to (at your own risk); see the [pystan readthedocs](https://pystan.readthedocs.io/en/latest/installation_beginner.html) for advice on installing pystan using `pip3` if you run into problems. Note that if you do not use Anaconda you will also have to install the other dependencies listed above, ie., `pip3 install numpy scipy ipython[all] jupyter matplotlib netCDF4 pystan`.
+
+**Platforms** 
+
+dlmmc has been successfully installed on Mac, Linux and Windows. Note that there are some limitations to the functionality of [pystan on Windows](https://pystan.readthedocs.io/en/latest/windows.html), but these do not restrict the use of the dlmmc package for Windows users.
 
 ### Usage
 

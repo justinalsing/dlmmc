@@ -1,4 +1,4 @@
-[![DOI](http://joss.theoj.org/papers/10.21105/joss.01157/status.svg)](https://doi.org/10.21105/joss.01157)
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.01157/status.svg)](https://doi.org/10.21105/joss.01157)<br/>
 [![DOI](https://zenodo.org/badge/148547735.svg)](https://zenodo.org/badge/latestdoi/148547735)
 
 # DLMMC

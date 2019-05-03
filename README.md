@@ -1,3 +1,4 @@
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.01157/status.svg)](https://doi.org/10.21105/joss.01157)
 [![DOI](https://zenodo.org/badge/148547735.svg)](https://zenodo.org/badge/latestdoi/148547735)
 
 # DLMMC
@@ -64,9 +65,11 @@ A more comprehensive test suite is provided in `dlm_validation_tests.ipynb`. In 
 
 ### Citing this code
 
-There is a JOSS paper in preparation to accompany the code (appearing soon). Until then, please contact me if you intend to use the code for a major project (justin.alsing@fysik.su.se).
+There is a JOSS paper to accompany this paper, which can be found [here](http://joss.theoj.org/papers/10.21105/joss.01157). Please cite this paper if you use or refer to this code, as:
 
-A close description of the vanilla DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and this model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers along with the paper accompanying this code (in prep - appearing soon) when you use this code.
+_Alsing, (2019). dlmmc: Dynamical linear model regression for atmospheric time-series analysis. Journal of Open Source Software, 4(37), 1157, https://doi.org/10.21105/joss.01157_
+
+A close description of the vanilla DLM model implemented here can be found in [Laine et al 2014](https://www.atmos-chem-phys.net/14/9707/2014/acp-14-9707-2014.pdf), and this model/code was used for analyzing ozone data in [Ball et al 2017](https://www.research-collection.ethz.ch/handle/20.500.11850/202027) and [Ball et al 2018](https://www.atmos-chem-phys.net/18/1379/2018/acp-18-1379-2018.html). Please consider citing these papers too when you use this code.
 
 ### Contributions, reporting issues and feature requests
 

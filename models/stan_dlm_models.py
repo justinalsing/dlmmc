@@ -3,7 +3,7 @@ dlm_vanilla_ar1 = """
 data {
     int N; // number of time steps
     int nreg; // number of regressors
-    int sampling; // sampling of data: daily = 0, monthly = 1, annual = 2
+    real sampling; // sampling of data: daily = 0, monthly = 1, annual = 2
     vector[N] time_series; // n-composites vectors of N-time-steps -- the data
     vector[N] stddev; // corresponding std deviation for each data point
     vector[nreg] regressors[N]; // nreg regressors of N-time-steps
@@ -265,7 +265,7 @@ dlm_vanilla_ar2 = """
 data {
     int N; // number of time steps
     int nreg; // number of regressors
-    int sampling; // sampling of data: daily = 0, monthly = 1, annual = 2
+    real sampling; // sampling of data: daily = 0, monthly = 1, annual = 2
     vector[N] time_series; // n-composites vectors of N-time-steps -- the data
     vector[N] stddev; // corresponding std deviation for each data point
     vector[nreg] regressors[N]; // nreg regressors of N-time-steps
@@ -529,7 +529,7 @@ dlm_dynregs_ar1 = """
 data {
     int N; // number of time steps
     int nreg; // number of regressors
-    int sampling; // sampling of data: daily = 0, monthly = 1, annual = 2
+    real sampling; // sampling of data: daily = 0, monthly = 1, annual = 2
     vector[N] time_series; // n-composites vectors of N-time-steps -- the data
     vector[N] stddev; // corresponding std deviation for each data point
     vector[nreg] regressors[N]; // nreg regressors of N-time-steps
@@ -798,7 +798,7 @@ dlm_noregs_ar1 = """
 
 data {
     int N; // number of time steps
-    int sampling; // sampling of data: daily = 0, monthly = 1, annual = 2
+    real sampling; // sampling of data: daily = 0, monthly = 1, annual = 2
     vector[N] time_series; // n-composites vectors of N-time-steps -- the data
     vector[N] stddev; // corresponding std deviation for each data point
     real<lower=0> sigma_trend_prior;

@@ -180,7 +180,7 @@ def convert_to_netcdf(results_dir, results_filename, P, L):
 
 def sampling_rate(rate):
     if rate == 'monthly':
-        return 1
+        return 1.
     if rate == 'daily':
         return 12./365.25
     if rate == 'annual':

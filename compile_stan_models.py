@@ -24,12 +24,12 @@ f.close()
 
 model_vanilla_ar1_noseasonal = pystan.StanModel(model_code=dlm_vanilla_ar1_noseasonal)
 f = open('models/dlm_vanilla_ar1_noseasonal.pkl', 'wb')
-pickle.dump(dlm_vanilla_ar1_noseasonal, f)
+pickle.dump(model_vanilla_ar1_noseasonal, f)
 f.close()
 
 model_vanilla_ar2_noseasonal = pystan.StanModel(model_code=dlm_vanilla_ar2_noseasonal)
 f = open('models/dlm_vanilla_ar2_noseasonal.pkl', 'wb')
-pickle.dump(dlm_vanilla_ar2_noseasonal, f)
+pickle.dump(model_vanilla_ar2_noseasonal, f)
 f.close()
 
 
